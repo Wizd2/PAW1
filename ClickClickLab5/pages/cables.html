@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Language" content="pl" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="Author" content="Twoje Imię i Nazwisko" />
+  <title>ClickClick — Kable</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <table class="layout">
+      <tr>
+        <td class="headerCell">
+          <div class="brand">
+            <div class="brandLeft">
+              <div class="logo" aria-hidden="true"></div>
+              <div class="brandTitle">
+                <h1>ClickClick</h1>
+                <p>Kable — USB‑C, Aviator, Coiled</p>
+              </div>
+            </div>
+
+            <div class="brandRight">
+              <div class="topActions" aria-label="Szukaj i koszyk">
+                <div class="searchWrap">
+                  <span class="searchIcon" aria-hidden="true">⌕</span>
+                  <input class="search" type="search" placeholder="Szukaj: switche, keycapy, kable…" disabled />
+                </div>
+                <button class="themeBtn" type="button" onclick="changeBackground()">Zmień tło</button>
+                <span class="themeLabel" id="themeLabel" aria-hidden="true"></span>
+                <a class="iconBtn" href="#" title="Koszyk (w Lab12)" onclick="return false;">🛒<span class="cartBadge">0</span></a>
+              </div>
+
+              <nav class="nav" aria-label="Menu">
+                <a href="../index.html">Home</a>
+                <a href="catalog.html">Sklep</a>
+                <a href="switches.html">Switche</a>
+                <a href="keycaps.html">Keycapy</a>
+                <a class="active" href="cables.html">Kable</a>
+                <a href="guide.html">Poradnik</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Kontakt</a>
+                <a href="about.html">O nas</a>
+              </nav>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="contentCell">
+          <section class="card cardHover clearfix">
+            <img class="floatImg" src="../img/cable1.jpg" alt="Custom cable" />
+            <h2>Kable</h2>
+            <p>
+              Dobre kable to nie tylko wygląd — liczy się elastyczność, oplot, złącza i długość.
+              Poniżej masz przykładowe produkty w układzie sklepowym (statycznie w Lab1).
+            </p>
+            <div class="subnav" aria-label="Filtry (statycznie)">
+              <span class="pill">USB‑C</span>
+              <span class="pill">Aviator</span>
+              <span class="pill">Coiled</span>
+              <span class="pill">Długość: 1.5 m / 2 m</span>
+            </div>
+          </section>
+
+          <div style="height:14px;"></div>
+
+          <section class="card">
+            <div class="productGrid">
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Cable A — USB‑C Basic</h3>
+                    <div class="productMeta">USB‑A → USB‑C • 1.5 m • miękki oplot</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (kable)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/cable1.jpg" alt="USB-C cable" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Złącze</b><span>USB‑C</span></div>
+                    <div class="spec"><b>Długość</b><span>1.5 m</span></div>
+                    <div class="spec"><b>Oplot</b><span>Nylon</span></div>
+                    <div class="spec"><b>Kolor</b><span>Neon black</span></div>
+                    <div class="spec"><b>Ferryt</b><span>Tak</span></div>
+                    <div class="spec"><b>Gwarancja</b><span>12 mies.</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">USB‑C</span><span class="tag">BASIC</span></div>
+                  <div class="priceRow"><span class="price">39,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Cable B — Coiled Neon</h3>
+                    <div class="productMeta">Coiled • 2.0 m • paracord + techflex</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (kable)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/cable2.jpg" alt="Coiled cable" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Złącze</b><span>USB‑C</span></div>
+                    <div class="spec"><b>Długość</b><span>2.0 m</span></div>
+                    <div class="spec"><b>Oplot</b><span>Paracord</span></div>
+                    <div class="spec"><b>Sprężyna</b><span>Tak</span></div>
+                    <div class="spec"><b>Kolor</b><span>Purple neon</span></div>
+                    <div class="spec"><b>Gwarancja</b><span>12 mies.</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">COILED</span><span class="tag">NEON</span></div>
+                  <div class="priceRow"><span class="price">129,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Cable C — Aviator</h3>
+                    <div class="productMeta">Aviator GX16 • odpinany • 1.8 m</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (kable)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/case1.jpg" alt="Aviator cable" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Złącze</b><span>Aviator</span></div>
+                    <div class="spec"><b>Długość</b><span>1.8 m</span></div>
+                    <div class="spec"><b>Oplot</b><span>Techflex</span></div>
+                    <div class="spec"><b>Wymiana</b><span>Tak</span></div>
+                    <div class="spec"><b>Kolor</b><span>Black/Green</span></div>
+                    <div class="spec"><b>Gwarancja</b><span>24 mies.</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">AVIATOR</span><span class="tag">GX16</span></div>
+                  <div class="priceRow"><span class="price">169,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Cable D — Desk Mini</h3>
+                    <div class="productMeta">Krótki • 0.8 m • do setupu biurkowego</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (kable)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/desk1.jpg" alt="Desk cable" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Złącze</b><span>USB‑C</span></div>
+                    <div class="spec"><b>Długość</b><span>0.8 m</span></div>
+                    <div class="spec"><b>Oplot</b><span>Soft</span></div>
+                    <div class="spec"><b>Kolor</b><span>Smoke</span></div>
+                    <div class="spec"><b>Ferryt</b><span>Nie</span></div>
+                    <div class="spec"><b>Gwarancja</b><span>12 mies.</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">SHORT</span><span class="tag">DESK</span></div>
+                  <div class="priceRow"><span class="price">29,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+            </div>
+
+            <p style="margin-top:12px;">
+              <b>Tip:</b> Przy coiled kablach zwracaj uwagę na długość po rozciągnięciu i jakość oplotu.
+            </p>
+          </section>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="footerCell">
+          <div class="footerFlex">
+            <div class="datetime"><span id="datetime"></span></div>
+            <small>Wersja: v1.2 — jQuery (Lab3)</small>
+            <small><a href="../index.html">Powrót</a></small>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="../js/kolorujtlo.js"></script>
+  <script src="../js/timedate.js"></script>
+  <script src="../js/lab3-jquery.js"></script>
+</body>
+</html>

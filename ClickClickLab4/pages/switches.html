@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Language" content="pl" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="Author" content="Twoje Imię i Nazwisko" />
+  <title>ClickClick — Switche</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <table class="layout">
+      <tr>
+        <td class="headerCell">
+          <div class="brand">
+            <div class="brandLeft">
+              <div class="logo" aria-hidden="true"></div>
+              <div class="brandTitle">
+                <h1>ClickClick</h1>
+                <p>Switche — linear, tactile, clicky</p>
+              </div>
+            </div>
+
+            <div class="brandRight">
+              <div class="topActions" aria-label="Szukaj i koszyk">
+                <div class="searchWrap">
+                  <span class="searchIcon" aria-hidden="true">⌕</span>
+                  <input class="search" type="search" placeholder="Szukaj: switche, keycapy, kable…" disabled />
+                </div>
+                <button class="themeBtn" type="button" onclick="changeBackground()">Zmień tło</button>
+                <span class="themeLabel" id="themeLabel" aria-hidden="true"></span>
+                <a class="iconBtn" href="#" title="Koszyk (w Lab12)" onclick="return false;">🛒<span class="cartBadge">0</span></a>
+              </div>
+
+              <nav class="nav" aria-label="Menu">
+                <a href="../index.html">Home</a>
+                <a href="catalog.html">Sklep</a>
+                <a class="active" href="switches.html">Switche</a>
+                <a href="keycaps.html">Keycapy</a>
+                <a href="cables.html">Kable</a>
+                <a href="guide.html">Poradnik</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Kontakt</a>
+                <a href="about.html">O nas</a>
+              </nav>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="contentCell">
+          <section class="card cardHover">
+            <h2>Switche</h2>
+            <p>
+              Poniżej znajdziesz przykładowe produkty w formie dużych kart — to już wygląda jak sklep,
+              a w kolejnych labach te dane przeniesiemy do bazy (Lab11) i koszyka (Lab12).
+            </p>
+            <div class="subnav" aria-label="Filtry (statycznie)">
+              <span class="pill">Typ: Linear</span>
+              <span class="pill">Typ: Tactile</span>
+              <span class="pill">Typ: Clicky</span>
+              <span class="pill">Sound: Thocky / Clacky / Silent</span>
+            </div>
+          </section>
+
+          <div style="height:14px;"></div>
+
+          <section class="card">
+            <div class="productGrid">
+              <!-- 1 -->
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Switch X — Tactile Pro</h3>
+                    <div class="productMeta">MX • Factory lubed: Yes • Sound: Thocky</div>
+                  </div>
+                  <button class="speakerBtn" title="Kliknij, aby odsłuchać" data-sound="../audio/tactile_pro.wav" data-playing="0">🔊</button>
+                </div>
+                <div class="productImg"><img src="../img/switch1.jpg" alt="Switch tactile" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Typ</b><span>Tactile</span></div>
+                    <div class="spec"><b>Actuation</b><span>2.0 mm</span></div>
+                    <div class="spec"><b>Travel</b><span>4.0 mm</span></div>
+                    <div class="spec"><b>Force</b><span>67g</span></div>
+                    <div class="spec"><b>Housing</b><span>Nylon</span></div>
+                    <div class="spec"><b>Pin</b><span>5‑pin</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">TACTILE</span><span class="tag">THOCKY</span></div>
+                  <div class="priceRow"><span class="price">19,90 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <!-- 2 -->
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Switch Y — Linear Smooth</h3>
+                    <div class="productMeta">MX • Factory lubed: No • Sound: Clacky</div>
+                  </div>
+                  <button class="speakerBtn" title="Kliknij, aby odsłuchać" data-sound="../audio/linear_red.wav" data-playing="0">🔊</button>
+                </div>
+                <div class="productImg"><img src="../img/switch2.jpg" alt="Switch linear" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Typ</b><span>Linear</span></div>
+                    <div class="spec"><b>Actuation</b><span>1.9 mm</span></div>
+                    <div class="spec"><b>Travel</b><span>4.0 mm</span></div>
+                    <div class="spec"><b>Force</b><span>45g</span></div>
+                    <div class="spec"><b>Housing</b><span>PC</span></div>
+                    <div class="spec"><b>Pin</b><span>3‑pin</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">LINEAR</span><span class="tag">CLACKY</span></div>
+                  <div class="priceRow"><span class="price">16,90 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <!-- 3 -->
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Switch Z — Clicky Classic</h3>
+                    <div class="productMeta">MX • Factory lubed: No • Sound: Clicky</div>
+                  </div>
+                  <button class="speakerBtn" title="Kliknij, aby odsłuchać" data-sound="../audio/holy_panda.wav" data-playing="0">🔊</button>
+                </div>
+                <div class="productImg"><img src="../img/build1.jpg" alt="Switch clicky" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Typ</b><span>Clicky</span></div>
+                    <div class="spec"><b>Actuation</b><span>2.2 mm</span></div>
+                    <div class="spec"><b>Travel</b><span>4.0 mm</span></div>
+                    <div class="spec"><b>Force</b><span>60g</span></div>
+                    <div class="spec"><b>Housing</b><span>Nylon</span></div>
+                    <div class="spec"><b>Pin</b><span>5‑pin</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">CLICKY</span><span class="tag">LOUD</span></div>
+                  <div class="priceRow"><span class="price">14,90 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <!-- 4 -->
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Switch S — Silent Tactile</h3>
+                    <div class="productMeta">MX • Factory lubed: Yes • Sound: Silent</div>
+                  </div>
+                  <button class="speakerBtn" title="Kliknij, aby odsłuchać" data-sound="../audio/clicky_blue.wav" data-playing="0">🔊</button>
+                </div>
+                <div class="productImg"><img src="../img/build2.jpg" alt="Switch silent" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Typ</b><span>Silent tactile</span></div>
+                    <div class="spec"><b>Actuation</b><span>2.0 mm</span></div>
+                    <div class="spec"><b>Travel</b><span>3.7 mm</span></div>
+                    <div class="spec"><b>Force</b><span>62g</span></div>
+                    <div class="spec"><b>Housing</b><span>POM</span></div>
+                    <div class="spec"><b>Pin</b><span>5‑pin</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">SILENT</span><span class="tag">TACTILE</span></div>
+                  <div class="priceRow"><span class="price">21,90 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+            </div>
+
+            <p style="margin-top:12px;">
+              <b>Tip:</b> kliknij ikonę 🔊 — odtwarza próbkę dźwięku switcha (JS + audio).
+            </p>
+          </section>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="footerCell">
+          <div class="footerFlex">
+            <div class="datetime"><span id="datetime"></span></div>
+            <small>Tip: Lab3 — animacje w jQuery (hover, klik, rosnący element).</small>
+            <small><a href="../index.html">Powrót</a></small>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="../js/kolorujtlo.js"></script>
+  <script src="../js/timedate.js"></script>
+  <script src="../js/switches-audio.js"></script>
+  <script src="../js/lab3-jquery.js"></script>
+</body>
+</html>

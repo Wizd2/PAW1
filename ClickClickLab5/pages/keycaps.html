@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Language" content="pl" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="Author" content="Twoje Imię i Nazwisko" />
+  <title>ClickClick — Keycapy</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <table class="layout">
+      <tr>
+        <td class="headerCell">
+          <div class="brand">
+            <div class="brandLeft">
+              <div class="logo" aria-hidden="true"></div>
+              <div class="brandTitle">
+                <h1>ClickClick</h1>
+                <p>Keycapy — PBT, ABS, Artisan</p>
+              </div>
+            </div>
+
+            <div class="brandRight">
+              <div class="topActions" aria-label="Szukaj i koszyk">
+                <div class="searchWrap">
+                  <span class="searchIcon" aria-hidden="true">⌕</span>
+                  <input class="search" type="search" placeholder="Szukaj: switche, keycapy, kable…" disabled />
+                </div>
+                <button class="themeBtn" type="button" onclick="changeBackground()">Zmień tło</button>
+                <span class="themeLabel" id="themeLabel" aria-hidden="true"></span>
+                <a class="iconBtn" href="#" title="Koszyk (w Lab12)" onclick="return false;">🛒<span class="cartBadge">0</span></a>
+              </div>
+
+              <nav class="nav" aria-label="Menu">
+                <a href="../index.html">Home</a>
+                <a href="catalog.html">Sklep</a>
+                <a href="switches.html">Switche</a>
+                <a class="active" href="keycaps.html">Keycapy</a>
+                <a href="cables.html">Kable</a>
+                <a href="guide.html">Poradnik</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Kontakt</a>
+                <a href="about.html">O nas</a>
+              </nav>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="contentCell">
+          <section class="card cardHover clearfix">
+            <img class="floatImg" src="../img/keycaps1.jpg" alt="Keycaps set" />
+            <h2>Keycapy</h2>
+            <p>
+              Keycapy to „skóra” klawiatury — wpływają na wygląd, feeling i brzmienie. Poniżej masz
+              przykładowe produkty w formie kart sklepowych (statycznie w Lab1).
+            </p>
+            <div class="subnav" aria-label="Filtry (statycznie)">
+              <span class="pill">Materiał: PBT</span>
+              <span class="pill">Materiał: ABS</span>
+              <span class="pill">Profil: Cherry / OEM / SA</span>
+              <span class="pill">Legenda: Double‑shot / Dye‑sub</span>
+            </div>
+          </section>
+
+          <div style="height:14px;"></div>
+
+          <section class="card">
+            <div class="productGrid">
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Caps A — PBT Cherry</h3>
+                    <div class="productMeta">PBT • Cherry • Dye‑sub • 135 klawiszy</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (keycapy)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/keycaps1.jpg" alt="Keycaps PBT" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Materiał</b><span>PBT</span></div>
+                    <div class="spec"><b>Profil</b><span>Cherry</span></div>
+                    <div class="spec"><b>Grubość</b><span>1.5 mm</span></div>
+                    <div class="spec"><b>Legenda</b><span>Dye‑sub</span></div>
+                    <div class="spec"><b>Kompat.</b><span>MX</span></div>
+                    <div class="spec"><b>Układy</b><span>ANSI/ISO</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">PBT</span><span class="tag">CHERRY</span></div>
+                  <div class="priceRow"><span class="price">189,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Caps B — ABS Double‑shot</h3>
+                    <div class="productMeta">ABS • OEM • Double‑shot • Shine friendly</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (keycapy)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/keycaps2.jpg" alt="Keycaps ABS" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Materiał</b><span>ABS</span></div>
+                    <div class="spec"><b>Profil</b><span>OEM</span></div>
+                    <div class="spec"><b>Grubość</b><span>1.2 mm</span></div>
+                    <div class="spec"><b>Legenda</b><span>Double‑shot</span></div>
+                    <div class="spec"><b>Kompat.</b><span>MX</span></div>
+                    <div class="spec"><b>Kolor</b><span>Neon</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">ABS</span><span class="tag">DOUBLE‑SHOT</span></div>
+                  <div class="priceRow"><span class="price">149,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Caps C — SA Retro</h3>
+                    <div class="productMeta">PBT • SA • Dye‑sub • Głośniejszy profil</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (keycapy)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/desk1.jpg" alt="Keycaps SA" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Materiał</b><span>PBT</span></div>
+                    <div class="spec"><b>Profil</b><span>SA</span></div>
+                    <div class="spec"><b>Grubość</b><span>1.5 mm</span></div>
+                    <div class="spec"><b>Legenda</b><span>Dye‑sub</span></div>
+                    <div class="spec"><b>Kompat.</b><span>MX</span></div>
+                    <div class="spec"><b>Układy</b><span>ANSI</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">RETRO</span><span class="tag">SA</span></div>
+                  <div class="priceRow"><span class="price">219,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Caps D — Artisan 1u</h3>
+                    <div class="productMeta">Resin • 1u • R4 • ręczne wykonanie</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku (keycapy)">⌁</div>
+                </div>
+                <div class="productImg"><img src="../img/tool1.jpg" alt="Artisan keycap" /></div>
+                <div class="productBody">
+                  <div class="specGrid">
+                    <div class="spec"><b>Materiał</b><span>Resin</span></div>
+                    <div class="spec"><b>Rozmiar</b><span>1u</span></div>
+                    <div class="spec"><b>Profil</b><span>R4</span></div>
+                    <div class="spec"><b>Kompat.</b><span>MX</span></div>
+                    <div class="spec"><b>Produkcja</b><span>Handmade</span></div>
+                    <div class="spec"><b>Limit</b><span>30 szt.</span></div>
+                  </div>
+                  <div class="tagRow"><span class="tag">ARTISAN</span><span class="tag">LIMITED</span></div>
+                  <div class="priceRow"><span class="price">79,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+            </div>
+
+            <p style="margin-top:12px;">
+              <b>Tip:</b> PBT zwykle jest odporniejszy na wybłyszczenia, a profil (Cherry/OEM/SA) zmienia
+              wysokość i brzmienie.
+            </p>
+          </section>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="footerCell">
+          <div class="footerFlex">
+            <div class="datetime"><span id="datetime"></span></div>
+            <small>Wersja: v1.2 — jQuery (Lab3)</small>
+            <small><a href="../index.html">Powrót</a></small>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="../js/kolorujtlo.js"></script>
+  <script src="../js/timedate.js"></script>
+  <script src="../js/lab3-jquery.js"></script>
+</body>
+</html>

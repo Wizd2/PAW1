@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Language" content="pl" />
+  <meta name="Author" content="Twoje Imię i Nazwisko" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ClickClick — sklep z częściami do klawiatur</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- Wymagany szkielet statyczny: table / tr / td -->
+    <table class="layout">
+      <tr>
+        <td class="headerCell">
+          <div class="brand">
+            <div class="brandLeft">
+              <div class="logo" aria-hidden="true"></div>
+              <div class="brandTitle">
+                <h1>ClickClick</h1>
+                <p>Custom keyboard parts — switche, keycapy, kable i więcej</p>
+              </div>
+            </div>
+
+            <div class="brandRight">
+              <div class="topActions" aria-label="Szukaj i koszyk">
+                <div class="searchWrap">
+                  <span class="searchIcon" aria-hidden="true">⌕</span>
+                  <input class="search" type="search" placeholder="Szukaj: switche, keycapy, kable…" disabled />
+                </div>
+                <button class="themeBtn" type="button" onclick="changeBackground()">Zmień tło</button>
+                <span class="themeLabel" id="themeLabel" aria-hidden="true"></span>
+                <a class="iconBtn" href="#" title="Koszyk (w Lab12)" onclick="return false;">
+                  🛒
+                  <span class="cartBadge">0</span>
+                </a>
+              </div>
+
+              <nav class="nav" aria-label="Menu">
+                <a class="active" href="index.html">Home</a>
+                <a href="pages/catalog.html">Sklep</a>
+                <a href="pages/switches.html">Switche</a>
+                <a href="pages/keycaps.html">Keycapy</a>
+                <a href="pages/cables.html">Kable</a>
+                <a href="pages/guide.html">Poradnik</a>
+                <a href="pages/faq.html">FAQ</a>
+                <a href="pages/contact.html">Kontakt</a>
+                <a href="pages/about.html">O nas</a>
+              </nav>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="contentCell">
+          <div class="hero">
+            <section class="card heroContent">
+              <h2>Witaj w ClickClick 👋</h2>
+              <p>
+                Sklep z częściami do klawiatur mechanicznych: <b>bazy</b>, <b>switche</b>, <b>keycapy</b>,
+                <b>kable</b>, stabilizatory i akcesoria.
+              </p>
+              <p>
+                Ten projekt będzie rozwijany w kolejnych laboratoriach — dodamy JavaScript, jQuery, PHP,
+                bazę danych, panel CMS i koszyk.
+              </p>
+
+              <div class="badges">
+                <div class="badge"><span class="dot"></span> Kategorie (Lab10)</div>
+                <div class="badge"><span class="dot green"></span> Produkty + VAT (Lab11)</div>
+                <div class="badge"><span class="dot"></span> Koszyk w sesji (Lab12)</div>
+              </div>
+
+              <div class="kpi">
+                <div class="mini"><b>Switche</b><span>Linear / Tactile / Clicky</span></div>
+                <div class="mini"><b>Keycapy</b><span>PBT / ABS / Artisan</span></div>
+                <div class="mini"><b>Kable</b><span>USB-C / Aviator / Coiled</span></div>
+              </div>
+            </section>
+
+            <div class="card heroVisual">
+              <img src="img/hero.jpg" alt="Custom keyboard setup" />
+            </div>
+          </div>
+
+          <div style="height:14px;"></div>
+
+          <section class="card" style="margin-top:14px;">
+            <h3>Kategorie</h3>
+            <p>Wybierz dział — później w Lab10 zrobimy drzewo kategorii (rekurencja).</p>
+            <div class="categoryGrid">
+              <a class="categoryCard" href="pages/switches.html">
+                <div class="categoryTitle">Switche</div>
+                <div class="categoryMeta">Linear / Tactile / Clicky</div>
+              </a>
+              <a class="categoryCard" href="pages/keycaps.html">
+                <div class="categoryTitle">Keycapy</div>
+                <div class="categoryMeta">PBT / ABS / Artisan</div>
+              </a>
+              <a class="categoryCard" href="pages/cables.html">
+                <div class="categoryTitle">Kable</div>
+                <div class="categoryMeta">USB‑C / Aviator / Coiled</div>
+              </a>
+              <a class="categoryCard" href="pages/catalog.html">
+                <div class="categoryTitle">Wszystkie produkty</div>
+                <div class="categoryMeta">Szybki przegląd sklepu</div>
+              </a>
+            </div>
+          </section>
+
+          <section class="card" style="margin-top:14px;">
+            <h3>Best‑sellery</h3>
+            <p>Przykładowa siatka produktów (statycznie na Lab1). W Lab11 dane będą z bazy.</p>
+            <div class="productGrid">
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Tactile Pro 67g</h3>
+                    <div class="productMeta">Actuation 2.0 mm • Travel 4.0 mm</div>
+                  </div>
+                  <button class="speakerBtn" disabled title="Odsłuch (Lab2)">🔊</button>
+                </div>
+                <div class="productImg"><img src="img/switch1.jpg" alt="Switch - Tactile" /></div>
+                <div class="productBody">
+                  <div class="tagRow"><span class="tag">TACTILE</span><span class="tag">THOCKY</span></div>
+                  <div class="priceRow"><span class="price">19,90 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>PBT Keycaps — Neon Set</h3>
+                    <div class="productMeta">Profile: Cherry • 135 keys</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku">⌁</div>
+                </div>
+                <div class="productImg"><img src="img/keycaps1.jpg" alt="Keycaps" /></div>
+                <div class="productBody">
+                  <div class="tagRow"><span class="tag">PBT</span><span class="tag">CHERRY</span></div>
+                  <div class="priceRow"><span class="price">149,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Coiled Cable USB‑C</h3>
+                    <div class="productMeta">Aviator • 1.8 m • PET sleeve</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku">⌁</div>
+                </div>
+                <div class="productImg"><img src="img/cable1.jpg" alt="Coiled cable" /></div>
+                <div class="productBody">
+                  <div class="tagRow"><span class="tag">COILED</span><span class="tag">AVIATOR</span></div>
+                  <div class="priceRow"><span class="price">89,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+
+              <article class="productCard">
+                <div class="productHeader">
+                  <div>
+                    <h3>Aluminium Case 65%</h3>
+                    <div class="productMeta">Mount: gasket • Color: black</div>
+                  </div>
+                  <div class="speakerBtn" title="Bez dźwięku">⌁</div>
+                </div>
+                <div class="productImg"><img src="img/case1.jpg" alt="Keyboard case" /></div>
+                <div class="productBody">
+                  <div class="tagRow"><span class="tag">CASE</span><span class="tag">65%</span></div>
+                  <div class="priceRow"><span class="price">329,00 zł</span><span class="smallBtn">Dodaj (Lab12)</span></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="grid2" style="margin-top:14px;">
+            <aside class="card cardHover">
+              <h3>Szybkie linki</h3>
+              <p>Najczęściej odwiedzane:</p>
+              <ul class="ul">
+                <li><a href="pages/catalog.html">Sklep — przegląd produktów</a></li>
+                <li><a href="pages/switches.html">Switche — karty produktów</a></li>
+                <li><a href="pages/faq.html">FAQ</a></li>
+                <li><a href="pages/contact.html">Kontakt</a></li>
+              </ul>
+            </aside>
+
+            <section class="card cardHover">
+              <h3>Roadmap labów</h3>
+              <ul class="ul">
+                <li><b>Lab1</b>: HTML + CSS — wygląd sklepu</li>
+                <li><b>Lab2</b>: JavaScript — tło + data/czas + audio switchy</li>
+                <li><b>Lab6–9</b>: CMS + baza danych</li>
+                <li><b>Lab10–12</b>: kategorie + produkty + koszyk</li>
+              </ul>
+              <p>Tip: na Lab1 masz już <b>15+ obrazów</b> w folderze <b>img/</b>.</p>
+            </section>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="footerCell">
+          <div class="footerFlex">
+            <div class="datetime"><span id="datetime"></span></div>
+            <small>© ClickClick — projekt edukacyjny (Lab3 v1.2)</small>
+            <small>Struktura: <code>HTML/CSS + table layout</code></small>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="js/kolorujtlo.js"></script>
+  <script src="js/timedate.js"></script>
+  <script src="js/lab3-jquery.js"></script>
+</body>
+</html>
