@@ -12,10 +12,8 @@
 
 // Dostosuj wartosci do swojego XAMPP / MySQL
 // Zwykle w XAMPP jest user: root i puste haslo, ale czasem bywa inaczej
-$cfg_db_host = 'localhost';
-$cfg_db_user = 'root';
-$cfg_db_pass = ''; // w wielu instalacjach XAMPP haslo jest puste
-$cfg_db_name = 'moja_strona';
+// Dolaczamy zmienne srodowiskowe (zabezpieczone hasla)
+require_once __DIR__ . '/config/env.php';
 
 // Laczymy sie z baza danych (mysqli)
 // Jak cos nie dziala: sprawdz czy MySQL w XAMPP jest uruchomiony
@@ -32,15 +30,4 @@ if (!$link) {
 // Ustawiamy kodowanie na utf8, zeby polskie znaki nie wariowaly
 mysqli_set_charset($link, 'utf8');
 
-// ClickClick — v1.6 
-// Dane logowania do panelu administracyjnego (zmien je!)
-// Proste logowanie do panelu admina
-// Wymagane w : zmienne $login i $pass w cfg.php
-$login = 'admin';
-$pass = 'admin123';
-
-// ClickClick — v1.7 
-// Adres e-mail do odbierania wiadomosci z formularza kontaktowego
-// Tu wpisz swoj prawdziwy e-mail, wtedy formularz bedzie mial sens
-// (zmien na swoj prawdziwy e-mail)
-$admin_email = 'twoj_email@example.com';
+// Dane logowania i email sa w config/env.php

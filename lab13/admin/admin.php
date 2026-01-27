@@ -134,6 +134,7 @@ function render_admin_layout(string $title, string $contentHtml): string {
  <a href="admin.php?action=videos_list">Filmy</a>
  <a href="admin.php?action=faq_list">FAQ</a>
  <a href="admin.php?action=guide_list">Poradnik</a>
+ <a href="admin.php?action=orders_list">Zamówienia</a>
  <a href="admin.php?action=logout">Wyloguj</a>
  </nav>';
  }
@@ -1192,100 +1193,322 @@ function EdytujPoradnik(int $id): string {
 function UsunPoradnik(int $id): string {
   global $link;
   $id=(int)$id;
-  mysqli_query($link, "DELETE FROM guides WHERE id=$id LIMIT 1");
   return '<div class="card">Usunięto. <a href="admin.php?action=guide_list">Wróć</a></div>';
 }
 
+// ===================================
+// ===================================
+// ZAMÓWIENIA (ORDERS)
+// Moduł zarządzania zamówieniami w CMS.
+// ===================================
+
+/**
+ * Wyświetla listę wszystkich zamówień w systemie.
+ * Pokazuje ID, datę, użytkownika, kwotę i status.
+ *
+ * @return string HTML tabela z listą zamówień
+ */
+function ListaZamowien(): string {
+    global $link;
+    
+    // Pobieramy zamowienia z emailem uzytkownika
+    $sql = "SELECT o.id, o.user_id, o.status, o.total_amount, o.created_at, u.email 
+            FROM orders o
+            LEFT JOIN users u ON u.id = o.user_id
+            ORDER BY o.created_at DESC";
+    
+    $q = mysqli_query($link, $sql);
+    if (!$q) {
+        return '<div class="card">Błąd SQL: '.h(mysqli_error($link)).'</div>';
+    }
+    
+    $rows = '';
+    while ($r = mysqli_fetch_assoc($q)) {
+        $id = (int)$r['id'];
+        $email = h($r['email'] ?? '(brak email)');
+        $date = h($r['created_at']);
+        $status = h($r['status']);
+        $total = number_format((float)$r['total_amount'], 2, ',', ' ');
+        
+        $statusColor = 'rgba(255,255,255,.1)';
+        if ($status === 'new') $statusColor = 'rgba(59,130,246,.2)'; // blue
+        if ($status === 'completed') $statusColor = 'rgba(34,197,94,.2)'; // green
+        if ($status === 'cancelled') $statusColor = 'rgba(239,68,68,.2)'; // red
+
+        $rows .= '<tr>
+            <td>'.$id.'</td>
+            <td><b>'.$email.'</b><br><small style="opacity:0.6;">User ID: '.$r['user_id'].'</small></td>
+            <td>'.$date.'</td>
+            <td><span class="badge" style="background:'.$statusColor.';">'.$status.'</span></td>
+            <td>'.$total.' zł</td>
+            <td>
+                <a class="btn" href="admin.php?action=order_edit&id='.$id.'">Edytuj / Szczegóły</a>
+            </td>
+        </tr>';
+    }
+    
+    if ($rows === '') {
+        $rows = '<tr><td colspan="6">Brak zamówień.</td></tr>';
+    }
+
+    return '<section class="card">
+        <h2>Lista Zamówień</h2>
+        <div style="overflow:auto;">
+        <table class="layout" style="border-radius:12px;">
+            <tr>
+                <th style="padding:10px; text-align:left;">ID</th>
+                <th style="padding:10px; text-align:left;">Klient</th>
+                <th style="padding:10px; text-align:left;">Data</th>
+                <th style="padding:10px; text-align:left;">Status</th>
+                <th style="padding:10px; text-align:left;">Kwota</th>
+                <th style="padding:10px; text-align:left;">Akcje</th>
+            </tr>
+            '.$rows.'
+        </table>
+        </div>
+    </section>';
+}
+
+/**
+ * Edycja konkretnego zamówienia.
+ * Umożliwia zmianę statusu, edycję ilości towarów oraz dodawanie/usuwanie pozycji.
+ * Automatycznie przelicza sumę zamówienia przy zmianach.
+ *
+ * @param int $id ID zamówienia
+ * @return string HTML formularz edycji
+ */
+function EdytujZamowienie(int $id): string {
+    global $link;
+    $id = (int)$id;
+    if ($id <= 0) return '<div class="card">Błędne ID zamówienia</div>';
+    
+    $msg = '';
+    
+    // --- Obsluga formularzy ---
+    
+    // Recalc helper
+    if (!function_exists('cc_recalc')) {
+        function cc_recalc($lid, $oid) {
+            $res = mysqli_query($lid, "SELECT SUM(quantity * price_gross) as total FROM order_items WHERE order_id=$oid");
+            $row = mysqli_fetch_assoc($res);
+            $newTotal = $row['total'] ? (float)$row['total'] : 0.00;
+            mysqli_query($lid, "UPDATE orders SET total_amount=$newTotal WHERE id=$oid");
+        }
+    }
+
+    // 1. Zmiana statusu
+    if (isset($_POST['update_status'])) {
+        $newStatus = mysqli_real_escape_string($link, $_POST['status']);
+        mysqli_query($link, "UPDATE orders SET status='$newStatus' WHERE id=$id");
+        $msg .= '<div class="card" style="border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10); margin-bottom:12px;">Zmieniono status na: <b>'.h($newStatus).'</b></div>';
+        
+        // Wysyłka powiadomienia email
+        $uq = mysqli_query($link, "SELECT u.email FROM orders o JOIN users u ON o.user_id = u.id WHERE o.id=$id LIMIT 1");
+        if ($uq && $ur = mysqli_fetch_assoc($uq)) {
+            $userEmail = $ur['email'];
+            require_once __DIR__ . '/../smtp_helper.php';
+            $subject = "Zmiana statusu zamówienia #$id";
+            $body = "Twoje zamówienie #$id zmieniło status na: $newStatus\n\nPozdrawiamy,\nZespół ClickClick";
+            // Funkcja send_smtp_mail powinna handlować błędy wewnątrz (logować), 
+            // więc nie blokujemy admina jak mail nie wyjdzie.
+            send_smtp_mail($userEmail, $subject, $body);
+        }
+    }
+    
+    // 2. Usuniecie pozycji
+    if (isset($_GET['remove_item'])) {
+        $itemId = (int)$_GET['remove_item'];
+        mysqli_query($link, "DELETE FROM order_items WHERE id=$itemId AND order_id=$id");
+        cc_recalc($link, $id);
+        $msg .= '<div class="card" style="border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10); margin-bottom:12px;">Usunięto pozycję.</div>';
+    }
+    
+    // 3. Aktualizacja ilosci
+    if (isset($_POST['update_item_qty'])) {
+        $itemId = (int)$_POST['item_id'];
+        $newQty = (int)$_POST['quantity'];
+        if ($newQty > 0) {
+            mysqli_query($link, "UPDATE order_items SET quantity=$newQty WHERE id=$itemId AND order_id=$id");
+            cc_recalc($link, $id);
+            $msg .= '<div class="card" style="border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10); margin-bottom:12px;">Zaktualizowano ilość.</div>';
+        } else {
+             $msg .= '<div class="card" style="border-color: rgba(239,68,68,.45); background: rgba(239,68,68,.08); margin-bottom:12px;">Ilość musi być > 0.</div>';
+        }
+    }
+    
+    // 4. Dodanie produktu
+    if (isset($_POST['add_product'])) {
+        $prodId = (int)$_POST['new_prod_id'];
+        if ($prodId > 0) {
+            $qp = mysqli_query($link, "SELECT price_netto, vat FROM products WHERE id=$prodId");
+            if ($qp && $rp = mysqli_fetch_assoc($qp)) {
+                $price = (float)$rp['price_netto'] * (1 + $rp['vat']/100.0);
+                mysqli_query($link, "INSERT INTO order_items (order_id, product_id, quantity, price_gross) VALUES ($id, $prodId, 1, $price)");
+                cc_recalc($link, $id);
+                $msg .= '<div class="card" style="border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10); margin-bottom:12px;">Dodano produkt ID '.$prodId.'.</div>';
+            } else {
+                $msg .= '<div class="card" style="border-color: rgba(239,68,68,.45); background: rgba(239,68,68,.08); margin-bottom:12px;">Produkt o ID '.$prodId.' nie istnieje.</div>';
+            }
+        }
+    }
+
+    // --- Pobranie danych ---
+    $q = mysqli_query($link, "SELECT * FROM orders WHERE id=$id");
+    if (!$q || mysqli_num_rows($q)===0) return '<div class="card">Zamówienie nie istnieje</div>';
+    $order = mysqli_fetch_assoc($q);
+    
+    $qItems = mysqli_query($link, "
+        SELECT oi.*, p.title 
+        FROM order_items oi
+        LEFT JOIN products p ON p.id = oi.product_id
+        WHERE oi.order_id=$id
+    ");
+
+    $statusOpts = '';
+    foreach(['new','processing','completed','cancelled'] as $st) {
+        $sel = ($st === $order['status']) ? 'selected' : '';
+        $trans = ucfirst($st);
+        if($st=='new') $trans='Nowe';
+        if($st=='processing') $trans='W realizacji';
+        if($st=='completed') $trans='Zakończone';
+        if($st=='cancelled') $trans='Anulowane';
+        $statusOpts .= '<option value="'.$st.'" '.$sel.'>'.$trans.'</option>';
+    }
+    
+    $rows = '';
+    while($item = mysqli_fetch_assoc($qItems)) {
+        $rows .= '<tr>
+            <td>'.h($item['title']).' <small>(ID: '.$item['product_id'].')</small></td>
+            <td>'.number_format($item['price_gross'], 2, ',', ' ').' zł</td>
+            <td>
+                <form method="post" action="admin.php?action=order_edit&id='.$id.'" style="display:flex; gap:5px;">
+                    <input type="hidden" name="update_item_qty" value="1">
+                    <input type="hidden" name="item_id" value="'.$item['id'].'">
+                    <input type="number" name="quantity" value="'.$item['quantity'].'" style="width:60px;" class="input">
+                    <button type="submit" class="btn smallBtn" style="padding:4px 8px;">OK</button>
+                </form>
+            </td>
+            <td>'.number_format($item['price_gross'] * $item['quantity'], 2, ',', ' ').' zł</td>
+            <td>
+                <a href="admin.php?action=order_edit&id='.$id.'&remove_item='.$item['id'].'" onclick="return confirm(\'Usunąć?\')" class="btn" style="background: rgba(239,68,68,.10); border-color: rgba(239,68,68,.45); padding:4px 8px;">X</a>
+            </td>
+        </tr>';
+    }
+    
+    return $msg . '
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+                <h2>Zamówienie #'.$id.'</h2>
+                <p style="opacity:0.7;">Data: '.$order['created_at'].' | User ID: '.$order['user_id'].'</p>
+            </div>
+            <div style="text-align:right;">
+                <h3 style="margin:0;">Suma: '.number_format($order['total_amount'],2,',',' ').' zł</h3>
+            </div>
+        </div>
+        
+        <form method="post" action="admin.php?action=order_edit&id='.$id.'" style="margin-top:20px; background:rgba(255,255,255,0.05); padding:15px; border-radius:8px;">
+            <label><b>Status zamówienia:</b></label>
+            <div style="display:flex; gap:10px; margin-top:5px;">
+                <select name="status" class="input" style="width:auto;">'.$statusOpts.'</select>
+                <button type="submit" name="update_status" class="btn">Zmień status</button>
+            </div>
+        </form>
+
+        <h3 style="margin-top:30px;">Pozycje zamówienia</h3>
+        <div style="overflow:auto;">
+            <table class="layout">
+                <tr><th>Produkt</th><th>Cena szt.</th><th>Ilość</th><th>Wartość</th><th>Usuń</th></tr>
+                '.$rows.'
+            </table>
+        </div>
+        
+        <div style="margin-top:20px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+            <h4>Dodaj produkt do zamówienia</h4>
+            <form method="post" action="admin.php?action=order_edit&id='.$id.'" style="display:flex; gap:10px; align-items:center;">
+                <input type="number" name="new_prod_id" placeholder="ID produktu" class="input" style="width:120px;">
+                <button type="submit" name="add_product" class="btn">Dodaj produkt</button>
+            </form>
+        </div>
+        
+        <div style="margin-top:30px;">
+            <a href="admin.php?action=orders_list" class="btn secondary">Powrót do listy zamówień</a>
+        </div>
+    </div>
+    ';
+}
 
 $action = (string)($_GET['action'] ?? 'list');
 
+// Auth check
 if ($action === 'logout') {
- unset($_SESSION['logged']);
- session_destroy();
- header('Location: admin.php');
- exit;
+    unset($_SESSION['logged']);
+    session_destroy();
+    header('Location: admin.php');
+    exit;
 }
 
 if (!is_logged_in()) {
- echo render_admin_layout('Logowanie', FormularzLogowania());
- exit;
+    echo render_admin_layout('Logowanie', FormularzLogowania());
+    exit;
 }
 
-// logged in
+// Router
 $content = '';
 
 if ($action === 'add') {
-  $content = DodajNowaPodstrone();
+    $content = DodajNowaPodstrone();
 } elseif ($action === 'edit') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = EdytujPodstrone($id);
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = EdytujPodstrone($id);
 } elseif ($action === 'delete') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = UsunPodstrone($id);
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = UsunPodstrone($id);
 
 // Kategorie
 } elseif ($action === 'cat_list') {
-  $content = ListaKategorii();
+    $content = ListaKategorii();
 } elseif ($action === 'cat_add') {
-  $content = DodajKategorie();
+    $content = DodajKategorie();
 } elseif ($action === 'cat_edit') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = EdytujKategorie($id);
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = EdytujKategorie($id);
 } elseif ($action === 'cat_delete') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = UsunKategorie($id);
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = UsunKategorie($id);
 
 // Produkty
 } elseif ($action === 'prod_list') {
-  $content = ListaProduktow();
+    $content = ListaProduktow();
 } elseif ($action === 'prod_add') {
-  $content = DodajProdukt();
+    $content = DodajProdukt();
 } elseif ($action === 'prod_edit') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = EdytujProdukt($id);
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = EdytujProdukt($id);
 } elseif ($action === 'prod_delete') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = UsunProdukt($id);
-
-// Filmy
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = UsunProdukt($id);
+    
+// Filmy (jesli uzywane)
 } elseif ($action === 'videos_list') {
-  $content = ListaFilmow();
-} elseif ($action === 'videos_add') {
-  $content = DodajFilm();
-} elseif ($action === 'videos_edit') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = EdytujFilm($id);
-} elseif ($action === 'videos_delete') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = UsunFilm($id);
-
+    $content = ListaFilmow();
+}
 // FAQ
-} elseif ($action === 'faq_list') {
-  $content = ListaFAQ();
-} elseif ($action === 'faq_add') {
-  $content = DodajFAQ();
-} elseif ($action === 'faq_edit') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = EdytujFAQ($id);
-} elseif ($action === 'faq_delete') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = UsunFAQ($id);
-
-// Poradnik
-} elseif ($action === 'guide_list') {
-  $content = ListaPoradnik();
-} elseif ($action === 'guide_add') {
-  $content = DodajPoradnik();
-} elseif ($action === 'guide_edit') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = EdytujPoradnik($id);
-} elseif ($action === 'guide_delete') {
-  $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-  $content = UsunPoradnik($id);
-
-} else {
-  // domyślnie: lista podstron
-  $content = ListaPodstron();
+elseif ($action === 'faq_list') {
+    $content = ListaFAQ();
 }
 
-echo render_admin_layout('Panel', $content);
+// Zamowienia
+elseif ($action === 'orders_list') {
+    $content = ListaZamowien();
+} elseif ($action === 'order_edit') {
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $content = EdytujZamowienie($id);
+
+} else {
+    // defaults
+    $content = ListaPodstron();
+}
+
+echo render_admin_layout('Admin Panel', $content);
+?>

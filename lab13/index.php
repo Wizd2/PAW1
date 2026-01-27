@@ -1,11 +1,9 @@
 <?php
-// ================================
-// ClickClick — v2.0 
-// index.php — glowny plik strony
-// - trzyma szablon strony (menu, stopka, wyglad)
-// - na podstawie parametru idp decyduje co wyswietlic
-// - dla kontaktu pokazuje formularz i wysyla maila
-// ================================
+/**
+ * ClickClick — Main Entry Point
+ * Główny router aplikacji. Obsługuje nawigację parametrem ?idp=...
+ * Dołącza odpowiednie podstrony i renderuje szablon HTML.
+ */
 
 // ClickClick — v2.0 
 // CMS cz.1+cz.2 + Kontakt (wysylka maila)
@@ -15,15 +13,13 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 // : koszyk dziala na sesji, wiec musimy startowac sesje na stronie
 // (w panelu admina tez jest sesja, ale tu robimy to dla klienta/sklepu)
 if (session_status() === PHP_SESSION_NONE) {
- session_start();
- echo '<pre style="color:lime; background:#000; padding:10px;">';
-var_dump($_SESSION);
-echo '</pre>';
-
+    session_start();
+    // Debug sesji tylko dla dewelopera
+    // echo '<pre style="color:lime; background:#000; padding:10px;">'; var_dump($_SESSION); echo '</pre>';
 }
 
 // Dolacz konfiguracje bazy danych
-// Dolaczamy cfg.php, bo tam jest polaczenie z baza + login/haslo admina
+// Dolaczamy cfg.php, bo tam jest polaczenie z baza
 include_once('cfg.php');
 // Dolaczamy contact.php z (formularz + wysylanie maila)
 include_once('contact.php');
@@ -47,170 +43,185 @@ $catActive = in_array($idp, ['kategorie','switches','keycaps','cables'], true);
 
 
 function cc_render_nav_categories_dropdown(): string {
-  return cc_render_nav_categories_level(0, 0);
+    return cc_render_nav_categories_level(0, 0);
 }
 
 function cc_render_nav_categories_level(int $parentId, int $level): string {
-  global $link;
-  $parentId = (int)$parentId;
-  $level = (int)$level;
+    global $link;
+    $parentId = (int)$parentId;
+    $level = (int)$level;
 
-  $q = mysqli_query($link, "SELECT id, name FROM categories WHERE parent_id=$parentId ORDER BY name ASC");
-  if (!$q) return '';
+    $q = mysqli_query($link, "SELECT id, name FROM categories WHERE parent_id=$parentId ORDER BY name ASC");
+    if (!$q) return '';
 
-  $out = '';
-  while ($r = mysqli_fetch_assoc($q)) {
-    $id = (int)$r['id'];
-    $name = cc_h($r['name']);
-    $prefix = str_repeat('&nbsp;&nbsp;&nbsp;', $level) . ($level>0 ? '— ' : '');
-    $out .= '<a role="menuitem" href="index.php?idp=kategorie&cat='. $id .'">'. $prefix . $name .'</a>';
-    $out .= cc_render_nav_categories_level($id, $level+1);
-  }
-  return $out;
+    $out = '';
+    while ($r = mysqli_fetch_assoc($q)) {
+        $id = (int)$r['id'];
+        $name = cc_h($r['name']);
+        $prefix = str_repeat('&nbsp;&nbsp;&nbsp;', $level) . ($level>0 ? '— ' : '');
+        $out .= '<a role="menuitem" href="index.php?idp=kategorie&cat='. $id .'">'. $prefix . $name .'</a>';
+        $out .= cc_render_nav_categories_level($id, $level+1);
+    }
+    return $out;
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
- <meta charset="UTF-8" />
- <meta http-equiv="Content-Language" content="pl" />
- <meta name="Author" content="Twoje Imię i Nazwisko" />
- <meta name="viewport" content="width=device-width, initial-scale=1" />
- <title>ClickClick — sklep z częściami do klawiatur</title>
- <link rel="stylesheet" href="css/style.css" />
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" href="style_logo_zoom.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Language" content="pl" />
+    <meta name="Author" content="Twoje Imię i Nazwisko" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClickClick — sklep z częściami do klawiatur</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style_logo_zoom.css">
 </head>
 
 <body>
-<div class="logo-overlay"></div>
- <div class="wrapper">
- <!-- Wymagany szkielet statyczny: table / tr / td -->
- <table class="layout">
- <tr>
- <td class="headerCell">
- <div class="brand">
- <div class="brandLeft">
- <div class="logo" aria-hidden="true"></div>
- <div class="brandTitle">
- <h1>ClickClick</h1>
- <p></p>
- </div>
- </div>
+    <div class="logo-overlay"></div>
+    <div class="wrapper">
+        <!-- Wymagany szkielet statyczny: table / tr / td -->
+        <table class="layout">
+            <tr>
+                <td class="headerCell">
+                    <div class="brand">
+                        <div class="brandLeft">
+                            <div class="logo" aria-hidden="true"></div>
+                            <div class="brandTitle">
+                                <h1>ClickClick</h1>
+                                <p></p>
+                            </div>
+                        </div>
 
- <div class="brandRight">
- <div class="topActions" aria-label="Szukaj i koszyk">
-<button class="themeBtn" type="button" onclick="changeBackground()">Zmień tło</button>
- <span class="themeLabel" id="themeLabel" aria-hidden="true"></span>
- <a class="iconBtn" href="index.php?idp=cart" title="Koszyk">
- 🛒
- <span class="cartBadge"><?php echo (int)$cartCount; ?></span>
- </a>
- </div>
+                        <div class="brandRight">
+                            <div class="topActions" aria-label="Szukaj i koszyk">
+                                <button class="themeBtn" type="button" onclick="changeBackground()">Zmień tło</button>
+                                <span class="themeLabel" id="themeLabel" aria-hidden="true"></span>
+                                <a class="iconBtn" href="index.php?idp=cart" title="Koszyk">
+                                    🛒
+                                    <span class="cartBadge"><?php echo (int)$cartCount; ?></span>
+                                </a>
+                            </div>
 
- <nav class="nav" aria-label="Menu">
-                <a class="<?php echo ($idp=='' ? 'active' : ''); ?>" href="index.php">Home</a>
+                            <nav class="nav" aria-label="Menu">
+                                <a class="<?php echo ($idp=='' ? 'active' : ''); ?>" href="index.php">Home</a>
 
-                <div class="dropdown <?php echo ($catActive ? 'active' : ''); ?>">
-                  <button class="dropBtn" type="button" aria-haspopup="true" aria-expanded="false">
-                    Kategorie <span aria-hidden="true">▾</span>
-                  </button>
-                  <div class="dropMenu" role="menu">
-                    <a role="menuitem" href="index.php?idp=kategorie">Wszystkie kategorie</a>
-                    <div class="dropSep" aria-hidden="true"></div>
-                    <?php echo cc_render_nav_categories_dropdown(); ?>
-</div>
-                </div>
+                                <div class="dropdown <?php echo ($catActive ? 'active' : ''); ?>">
+                                    <button class="dropBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                                        Kategorie <span aria-hidden="true">▾</span>
+                                    </button>
+                                    <div class="dropMenu" role="menu">
+                                        <a role="menuitem" href="index.php?idp=kategorie">Wszystkie kategorie</a>
+                                        <div class="dropSep" aria-hidden="true"></div>
+                                        <?php echo cc_render_nav_categories_dropdown(); ?>
+                                    </div>
+                                </div>
 
-                <a class="<?php echo ($idp=='guide' ? 'active' : ''); ?>" href="index.php?idp=guide">Poradnik</a>
-                <a class="<?php echo ($idp=='faq' ? 'active' : ''); ?>" href="index.php?idp=faq">FAQ</a>
-                <a class="<?php echo ($idp=='filmy' ? 'active' : ''); ?>" href="index.php?idp=filmy">Filmy</a>
-                <a class="<?php echo ($idp=='contact' ? 'active' : ''); ?>" href="index.php?idp=contact">Kontakt</a>
-                <a class="<?php echo ($idp=='about' ? 'active' : ''); ?>" href="index.php?idp=about">O nas</a>
-                <a class="<?php echo ($idp=='cart' ? 'active' : ''); ?>" href="index.php?idp=cart">Koszyk</a>
-              
-<a href="index.php?idp=auth" class="btn-auth">
-  <?php if (isset($_SESSION['user_id'])): ?>
-    <span style="color:#22c55e;">✔</span>
-  <?php else: ?>
-    👤
-  <?php endif; ?>
-  Konto
-</a>
+                                <a class="<?php echo ($idp=='all_products' ? 'active' : ''); ?>" href="index.php?idp=all_products">Produkty</a>
+                                <a class="<?php echo ($idp=='guide' ? 'active' : ''); ?>" href="index.php?idp=guide">Poradnik</a>
+                                <a class="<?php echo ($idp=='faq' ? 'active' : ''); ?>" href="index.php?idp=faq">FAQ</a>
+                                <a class="<?php echo ($idp=='filmy' ? 'active' : ''); ?>" href="index.php?idp=filmy">Filmy</a>
+                                <a class="<?php echo ($idp=='contact' ? 'active' : ''); ?>" href="index.php?idp=contact">Kontakt</a>
+                                <a class="<?php echo ($idp=='about' ? 'active' : ''); ?>" href="index.php?idp=about">O nas</a>
+                                <a class="<?php echo ($idp=='cart' ? 'active' : ''); ?>" href="index.php?idp=cart">Koszyk</a>
+                              
+                                <a href="index.php?idp=auth" class="btn-auth">
+                                    <?php if (isset($_SESSION['user_id'])): ?>
+                                        <span style="color:#22c55e;">✔</span>
+                                    <?php else: ?>
+                                        👤
+                                    <?php endif; ?>
+                                    Konto
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </td>
+            </tr>
 
+            <tr>
+                <td class="contentCell">
+                    <?php
+                    // : formularz kontaktowy w PHP
+                    // Dla kontaktu robimy osobna obsluge (nie z bazy), bo tu sa akcje POST
+                    if ($idp === 'contact') {
+                        $action = isset($_GET['action']) ? $_GET['action'] : '';
+                        $action = preg_replace('/[^a-zA-Z0-9_\-]/', '', $action);
 
-</nav>
- </div>
- </div>
- </td>
- </tr>
+                        if ($action === 'send' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                            echo WyslijMailKontakt();
+                        } elseif ($action === 'remind' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                            echo PrzypomnijHaslo();
+                        } else {
+                            echo PokazKontakt();
+                        }
+                    } elseif ($idp === 'kategorie') {
+                        // : wyswietlanie drzewa kategorii sklepu
+                        echo PokazKategorieSklepu();
+                    } elseif ($idp === 'switches' || $idp === 'keycaps' || $idp === 'cables') {
+                        // : produkty z bazy (zamiast "statycznych" kart w tresci strony)
+                        echo PokazProduktySklepu();
+                    } elseif ($idp === 'filmy') {
+                        echo PokazFilmy();
+                    } elseif ($idp === 'faq') {
+                        echo PokazFAQ();
+                    } elseif ($idp === 'guide') {
+                        echo PokazPoradnik();
+                    } elseif ($idp === 'cart') {
+                        echo PokazKoszyk();
+                    } elseif ($idp === 'verify') {
+                        include('verify.php');
+                    } elseif ($idp === 'reset') {
+                        include('reset_password.php');
+                    } elseif ($idp === 'forgot') {
+                        include('forgot_passwd.php');
+                    } elseif ($idp === 'order_success') {
+                        echo '<h2>Dziękujemy!</h2><p>Twoje zamówienie zostało przyjęte.</p><a href="index.php" class="btn">Wróć do sklepu</a>';
+                    } elseif ($idp === 'product') {
+                        $pid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+                        echo PokazProdukt($pid);
+                    } elseif ($idp === 'all_products') {
+                        echo PokazWszystkieProdukty();
+                    } elseif ($idp === 'my_orders') {
+                        include('my_orders.php');
+                    } elseif ($idp === 'auth') {
+                        include('panel.php');
+                    } elseif ($idp === 'login') {
+                        include('login_page.php');
+                    } else {
+                        // Wyswietlanie tresci z bazy danych 
+                        include('showpage.php');
+                    }
+                    ?>
+                </td>
+            </tr>
 
- <tr>
- <td class="contentCell">
- <?php
- // : formularz kontaktowy w PHP
-// Dla kontaktu robimy osobna obsluge (nie z bazy), bo tu sa akcje POST
- if ($idp === 'contact') {
- $action = isset($_GET['action']) ? $_GET['action'] : '';
- $action = preg_replace('/[^a-zA-Z0-9_\-]/', '', $action);
+            <tr>
+                <td class="footerCell">
+                    <div class="footerFlex">
+                        <small>© ClickClick — v2.2 | <span id="datetime"></span></small>
+                        <small><code>cfg.php + showpage.php + MySQL (page_list)</code></small>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
- if ($action === 'send' && $_SERVER['REQUEST_METHOD'] === 'POST') {
- echo WyslijMailKontakt();
- } elseif ($action === 'remind' && $_SERVER['REQUEST_METHOD'] === 'POST') {
- echo PrzypomnijHaslo();
- } else {
- echo PokazKontakt();
- }
- } elseif ($idp === 'kategorie') {
- // : wyswietlanie drzewa kategorii sklepu
- echo PokazKategorieSklepu();
- } elseif ($idp === 'switches' || $idp === 'keycaps' || $idp === 'cables') {
- // : produkty z bazy (zamiast "statycznych" kart w tresci strony)
- echo PokazProduktySklepu();
- } elseif ($idp === 'filmy') {
-  echo PokazFilmy();
-} elseif ($idp === 'faq') {
-  echo PokazFAQ();
-} elseif ($idp === 'guide') {
-  echo PokazPoradnik();
-} elseif ($idp === 'cart') {
- // : koszyk oparty o sesje
- echo PokazKoszyk();
- } else {
- // Wyswietlanie tresci z bazy danych 
- include('showpage.php');
- }
- ?>
- </td>
- </tr>
+    <script src="js/kolorujtlo.js"></script>
+    <script src="js/timedate.js"></script>
+    <script src="js/switches-audio.js"></script>
+    <script src="js/-jquery.js"></script>
 
- <tr>
- <td class="footerCell">
- <div class="footerFlex">
- <small>© ClickClick — v2.2 | <span id="datetime"></span></small>
- <small><code>cfg.php + showpage.php + MySQL (page_list)</code></small>
- </div>
- </td>
- </tr>
- </table>
- </div>
-
- <script src="js/kolorujtlo.js"></script>
- <script src="js/timedate.js"></script>
- <script src="js/switches-audio.js"></script>
- <script src="js/-jquery.js"></script>
-
- <?php
- // Identyfikator autora 
- $nr_indeksu = '175274';
- $nrGrupy = 'ISI-2';
- echo '<div style="text-align:center; margin-top:16px; color: rgba(255,255,255,.65); font-size:12px;">';
- echo 'Autor: Illia Matuznyi '. $nr_indeksu. ' grupa '. $nrGrupy;
- echo '</div>';
- ?>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="logo-zoom.js"></script>
+    <?php
+    // Identyfikator autora 
+    $nr_indeksu = '175274';
+    $nrGrupy = 'ISI-2';
+    echo '<div style="text-align:center; margin-top:16px; color: rgba(255,255,255,.65); font-size:12px;">';
+    echo 'Autor: Illia Matuznyi '. $nr_indeksu. ' grupa '. $nrGrupy;
+    echo '</div>';
+    ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="logo-zoom.js"></script>
 </body>
 </html>

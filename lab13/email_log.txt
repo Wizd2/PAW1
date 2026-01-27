@@ -1,0 +1,12 @@
+[2026-01-27 21:33:51] To: samorazwitie12@gmail.com | Code: 701238
+[2026-01-27 21:41:44] Auth failed
+[2026-01-27 21:42:00] SMTP SENT to iliialeblankowicz@gmail.com | Subj: ClickClick SMTP Test
+[2026-01-27 21:43:11] SMTP SENT to samorazwitie12@gmail.com | Subj: Kod weryfikacyjny - ClickClick
+[2026-01-27 21:44:01] SMTP SENT to samorazwitie12@gmail.com | Subj: Kod weryfikacyjny - ClickClick
+[2026-01-27 21:45:45] SMTP SENT to samorazwitie12@gmail.com | Subj: Zmiana hasla - ClickClick
+[2026-01-27 21:45:46] SMTP SENT to samorazwitie12@gmail.com | Subj: Zmiana hasla - ClickClick
+[2026-01-27 21:45:48] SMTP SENT to samorazwitie12@gmail.com | Subj: Zmiana hasla - ClickClick
+[2026-01-27 21:45:49] SMTP SENT to samorazwitie12@gmail.com | Subj: Zmiana hasla - ClickClick
+[2026-01-27 21:45:52] SMTP SENT to samorazwitie12@gmail.com | Subj: Zmiana hasla - ClickClick
+[2026-01-27 21:45:55] SMTP SENT to samorazwitie12@gmail.com | Subj: Zmiana hasla - ClickClick
+[2026-01-27 23:00:16] SMTP SENT to bitray4@gmail.com | Subj: Potwierdzenie zamówienia #3 - ClickClick
