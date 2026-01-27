@@ -1,0 +1,50 @@
+ <div class="grid2">
+ <section class="card cardHover">
+ <h2>Kontakt</h2>
+ <p>
+ Formularz jest spięty z klientem poczty przez <b>mailto:</b>.
+ Wpisz swój email docelowy w atrybucie <u>action</u>.
+ </p>
+
+ <form method="post" action="mailto:twoj_email@example.com" enctype="text/plain">
+ <div class="formGrid">
+ <div>
+ <label for="name"><b>Imię</b></label><br />
+ <input class="input" id="name" name="Imie" type="text" placeholder="Np. Jan" required />
+ </div>
+
+ <div>
+ <label for="email"><b>E-mail</b></label><br />
+ <input class="input" id="email" name="Email" type="email" placeholder="np. jan@mail.com" required />
+ </div>
+ </div>
+
+ <div style="margin-top:12px;">
+ <label for="topic"><b>Temat</b></label><br />
+ <input class="input" id="topic" name="Temat" type="text" placeholder="Np. Pytanie o switche" />
+ </div>
+
+ <div style="margin-top:12px;">
+ <label for="msg"><b>Wiadomość</b></label><br />
+ <textarea id="msg" name="Wiadomosc" placeholder="Napisz wiadomość..."></textarea>
+ </div>
+
+ <div style="margin-top:12px;">
+ <button class="btn" type="submit">Wyślij</button>
+ </div>
+ </form>
+ </section>
+
+ <aside class="card cardHover clearfix">
+ <img class="floatImg" src="img/cable1.jpg" alt="Custom cable" />
+ <h3>Godziny kontaktu</h3>
+ <ul class="ul">
+ <li>Pon–Pt: 10:00–18:00</li>
+ <li>Sob: 10:00–14:00</li>
+ <li>Nd: nieczynne</li>
+ </ul>
+ <p>
+ </p>
+ </aside>
+ </div>
+ </td>
