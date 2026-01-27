@@ -1,0 +1,294 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Хост: 127.0.0.1
+-- Время создания: Янв 27 2026 г., 19:34
+-- Версия сервера: 10.4.32-MariaDB
+-- Версия PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- База данных: `moja_strona`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(120) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Дамп данных таблицы `categories`
+--
+
+INSERT INTO `categories` (`id`, `parent_id`, `name`) VALUES
+(1, 0, 'Switche'),
+(2, 0, 'Keycapy'),
+(3, 0, 'Kable');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `faq`
+--
+
+CREATE TABLE `faq` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `answer` text NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `faq`
+--
+
+INSERT INTO `faq` (`id`, `question`, `answer`, `sort_order`, `status`) VALUES
+(2, '11', '1', 1, 1),
+(3, 'o co chodzi?', 'NWM', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `guides`
+--
+
+CREATE TABLE `guides` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `guides`
+--
+
+INSERT INTO `guides` (`id`, `title`, `body`, `created_at`, `status`) VALUES
+(1, 'Jak dobrać switche?', 'Krótka ściąga: Linear = płynnie, Tactile = wyczuwalny bump, Clicky = głośny klik.', '2026-01-20 22:40:34', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `page_list`
+--
+
+CREATE TABLE `page_list` (
+  `id` int(11) NOT NULL,
+  `page_title` varchar(255) NOT NULL,
+  `page_content` text NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `page_list`
+--
+
+INSERT INTO `page_list` (`id`, `page_title`, `page_content`, `status`) VALUES
+(1, 'glowna', '<section class=\"card intro\">\r\n  <h2>ClickClick</h2>\r\n  <p>\r\n    Sklep z częściami do klawiatur mechanicznych:\r\n    <b>bazy</b>, <b>switche</b>, <b>keycapy</b>, <b>kable</b> i akcesoria.\r\n  </p>\r\n</section>\r\n\r\n<div style=\"height:14px;\"></div>\r\n\r\n<section class=\"card\" style=\"margin-top:14px;\">\r\n  <h3>Best-sellery</h3>\r\n  <p>Najpopularniejsze propozycje z naszej oferty.</p>\r\n\r\n  <div class=\"productGrid\">\r\n\r\n    <article class=\"productCard\">\r\n      <div class=\"productHeader\">\r\n        <div>\r\n          <h3>Tactile Pro 67g</h3>\r\n          <div class=\"productMeta\">Actuation 2.0 mm • Travel 4.0 mm</div>\r\n        </div>\r\n        <button class=\"speakerBtn\" disabled title=\"Odsłuch\">?</button>\r\n      </div>\r\n      <div class=\"productImg\">\r\n        <img src=\"img/switch1.jpg\" alt=\"Switch - Tactile\" />\r\n      </div>\r\n      <div class=\"productBody\">\r\n        <div class=\"tagRow\">\r\n          <span class=\"tag\">TACTILE</span>\r\n          <span class=\"tag\">THOCKY</span>\r\n        </div>\r\n        <div class=\"priceRow\">\r\n          <span class=\"price\">19,90 zł</span>\r\n          <span class=\"smallBtn\">Dodaj</span>\r\n        </div>\r\n      </div>\r\n    </article>\r\n\r\n    <article class=\"productCard\">\r\n      <div class=\"productHeader\">\r\n        <div>\r\n          <h3>PBT Keycaps — Neon Set</h3>\r\n          <div class=\"productMeta\">Profile: Cherry • 135 keys</div>\r\n        </div>\r\n        <div class=\"speakerBtn\" title=\"Bez dźwięku\">⌁</div>\r\n      </div>\r\n      <div class=\"productImg\">\r\n        <img src=\"img/keycaps1.jpg\" alt=\"Keycaps\" />\r\n      </div>\r\n      <div class=\"productBody\">\r\n        <div class=\"tagRow\">\r\n          <span class=\"tag\">PBT</span>\r\n          <span class=\"tag\">CHERRY</span>\r\n        </div>\r\n        <div class=\"priceRow\">\r\n          <span class=\"price\">149,00 zł</span>\r\n          <span class=\"smallBtn\">Dodaj</span>\r\n        </div>\r\n      </div>\r\n    </article>\r\n\r\n    <article class=\"productCard\">\r\n      <div class=\"productHeader\">\r\n        <div>\r\n          <h3>Coiled Cable USB-C</h3>\r\n          <div class=\"productMeta\">Aviator • 1.8 m • PET sleeve</div>\r\n        </div>\r\n        <div class=\"speakerBtn\" title=\"Bez dźwięku\">⌁</div>\r\n      </div>\r\n      <div class=\"productImg\">\r\n        <img src=\"img/cable1.jpg\" alt=\"Coiled cable\" />\r\n      </div>\r\n      <div class=\"productBody\">\r\n        <div class=\"tagRow\">\r\n          <span class=\"tag\">COILED</span>\r\n          <span class=\"tag\">AVIATOR</span>\r\n        </div>\r\n        <div class=\"priceRow\">\r\n          <span class=\"price\">89,00 zł</span>\r\n          <span class=\"smallBtn\">Dodaj</span>\r\n        </div>\r\n      </div>\r\n    </article>\r\n\r\n    <article class=\"productCard\">\r\n      <div class=\"productHeader\">\r\n        <div>\r\n          <h3>Aluminium Case 65%</h3>\r\n          <div class=\"productMeta\">Mount: gasket • Color: black</div>\r\n        </div>\r\n        <div class=\"speakerBtn\" title=\"Bez dźwięku\">⌁</div>\r\n      </div>\r\n      <div class=\"productImg\">\r\n        <img src=\"img/case1.jpg\" alt=\"Keyboard case\" />\r\n      </div>\r\n      <div class=\"productBody\">\r\n        <div class=\"tagRow\">\r\n          <span class=\"tag\">CASE</span>\r\n          <span class=\"tag\">65%</span>\r\n        </div>\r\n        <div class=\"priceRow\">\r\n          <span class=\"price\">329,00 zł</span>\r\n          <span class=\"smallBtn\">Dodaj</span>\r\n        </div>\r\n      </div>\r\n    </article>\r\n\r\n  </div>\r\n</section>\r\n', 1),
+(2, 'catalog', ' <section class=\"card cardHover clearfix\">\r\n <img class=\"floatImg\" src=\"img/case1.jpg\" alt=\"Keyboard case\" />\r\n <h2>Sklep</h2>\r\n <p>\r\n To jest szybki katalog ClickClick —  a później dynamicznie z bazy danych.\r\n Poniższe sekcje pokazują typowy układ sklepu: kategorie + lista produktów.\r\n </p>\r\n <div class=\"subnav\" aria-label=\"Filtry \">\r\n <span class=\"pill\">Kategorie</span>\r\n <span class=\"pill\">Best‑sellery</span>\r\n <span class=\"pill\">Nowości</span>\r\n <span class=\"pill\">Promo</span>\r\n </div>\r\n </section>\r\n\r\n <div style=\"height:14px;\"></div>\r\n\r\n <section class=\"card\">\r\n <h3>Kategorie</h3>\r\n <div class=\"categoryGrid\" style=\"margin-top:10px;\">\r\n <a class=\"categoryCard\" href=\"switches\"><div class=\"categoryTitle\">Switche</div><div class=\"categoryMeta\">Linear / Tactile / Clicky</div></a>\r\n <a class=\"categoryCard\" href=\"keycaps\"><div class=\"categoryTitle\">Keycapy</div><div class=\"categoryMeta\">PBT / ABS / Artisan</div></a>\r\n <a class=\"categoryCard\" href=\"cables\"><div class=\"categoryTitle\">Kable</div><div class=\"categoryMeta\">USB‑C / Aviator / Coiled</div></a>\r\n <a class=\"categoryCard\" href=\"#\" onclick=\"return false;\"><div class=\"categoryTitle\">Stabilizatory</div><div class=\"categoryMeta\">Screw‑in / Plate‑mount</div></a>\r\n </div>\r\n </section>\r\n\r\n <div style=\"height:14px;\"></div>\r\n\r\n <section class=\"card\">\r\n <h3>Wybrane produkty</h3>\r\n <p>Mini‑lista  — w będzie pobierana z DB i liczona z VAT.</p>\r\n <div class=\"productGrid\">\r\n <article class=\"productCard\">\r\n <div class=\"productHeader\"><div><h3>Tactile Pro 67g</h3><div class=\"productMeta\">Switch • 2.0 mm • 4.0 mm</div></div><button class=\"speakerBtn\" disabled title=\"Odsłuch \">?</button></div>\r\n <div class=\"productImg\"><img src=\"img/switch1.jpg\" alt=\"Tactile switch\" /></div>\r\n <div class=\"productBody\"><div class=\"tagRow\"><span class=\"tag\">TACTILE</span><span class=\"tag\">THOCKY</span></div><div class=\"priceRow\"><span class=\"price\">19,90 zł</span><span class=\"smallBtn\">Dodaj </span></div></div>\r\n </article>\r\n\r\n <article class=\"productCard\">\r\n <div class=\"productHeader\"><div><h3>PBT Cherry Set</h3><div class=\"productMeta\">Keycapy • PBT • Dye‑sub</div></div><div class=\"speakerBtn\" title=\"Bez dźwięku\">⌁</div></div>\r\n <div class=\"productImg\"><img src=\"img/keycaps1.jpg\" alt=\"PBT keycaps\" /></div>\r\n <div class=\"productBody\"><div class=\"tagRow\"><span class=\"tag\">PBT</span><span class=\"tag\">CHERRY</span></div><div class=\"priceRow\"><span class=\"price\">189,00 zł</span><span class=\"smallBtn\">Dodaj </span></div></div>\r\n </article>\r\n\r\n <article class=\"productCard\">\r\n <div class=\"productHeader\"><div><h3>USB‑C Coiled Cable</h3><div class=\"productMeta\">Kabel • Aviator • 2.0 m</div></div><div class=\"speakerBtn\" title=\"Bez dźwięku\">⌁</div></div>\r\n <div class=\"productImg\"><img src=\"img/cable2.jpg\" alt=\"Coiled cable\" /></div>\r\n <div class=\"productBody\"><div class=\"tagRow\"><span class=\"tag\">COILED</span><span class=\"tag\">AVIATOR</span></div><div class=\"priceRow\"><span class=\"price\">89,00 zł</span><span class=\"smallBtn\">Dodaj </span></div></div>\r\n </article>\r\n\r\n <article class=\"productCard\">\r\n <div class=\"productHeader\"><div><h3>Case 65% Frost</h3><div class=\"productMeta\">Case • 65% • CNC look</div></div><div class=\"speakerBtn\" title=\"Bez dźwięku\">⌁</div></div>\r\n <div class=\"productImg\"><img src=\"img/case2.jpg\" alt=\"Keyboard case\" /></div>\r\n <div class=\"productBody\"><div class=\"tagRow\"><span class=\"tag\">CASE</span><span class=\"tag\">65%</span></div><div class=\"priceRow\"><span class=\"price\">249,00 zł</span><span class=\"smallBtn\">Dodaj </span></div></div>\r\n </article>\r\n </div>\r\n </section>\r\n\r\n <div style=\"height:14px;\"></div>\r\n\r\n <section class=\"card cardHover\">\r\n <h2>Strefa jQuery </h2>\r\n <p>\r\n Poniższe elementy służą do pokazania 3 wymaganych animacji jQuery: klik (pulse), hover (karta),\r\n oraz powiększanie obiektu z każdym kliknięciem.\r\n </p>\r\n <div class=\"jqDemoBox\" id=\"jqGrowBox\" title=\"Klikaj mnie — rosnę z każdym kliknięciem\">Klikaj mnie</div>\r\n <p style=\"margin-top:10px;\">\r\n </p>\r\n </section>\r\n\r\n </td>\r\n', 1),
+(3, 'switches', ' <section class=\"card cardHover\">\n <h2>Switche</h2>\n <p>\n Poniżej znajdziesz przykładowe produkty w formie dużych kart — to już wygląda jak sklep,\n a w kolejnych labach te dane przeniesiemy do bazy i koszyka.\n </p>\n <div class=\"subnav\" aria-label=\"Filtry \">\n <span class=\"pill\">Typ: Linear</span>\n <span class=\"pill\">Typ: Tactile</span>\n <span class=\"pill\">Typ: Clicky</span>\n <span class=\"pill\">Sound: Thocky / Clacky / Silent</span>\n </div>\n </section>\n\n <div style=\"height:14px;\"></div>\n\n <section class=\"card\">\n <div class=\"productGrid\">\n <!-- 1 -->\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Switch X — Tactile Pro</h3>\n <div class=\"productMeta\">MX • Factory lubed: Yes • Sound: Thocky</div>\n </div>\n <button class=\"speakerBtn\" title=\"Kliknij, aby odsłuchać\" data-sound=\"audio/tactile_pro.wav\" data-playing=\"0\">🔊</button>\n </div>\n <div class=\"productImg\"><img src=\"img/switch1.jpg\" alt=\"Switch tactile\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Typ</b><span>Tactile</span></div>\n <div class=\"spec\"><b>Actuation</b><span>2.0 mm</span></div>\n <div class=\"spec\"><b>Travel</b><span>4.0 mm</span></div>\n <div class=\"spec\"><b>Force</b><span>67g</span></div>\n <div class=\"spec\"><b>Housing</b><span>Nylon</span></div>\n <div class=\"spec\"><b>Pin</b><span>5‑pin</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">TACTILE</span><span class=\"tag\">THOCKY</span></div>\n <div class=\"priceRow\"><span class=\"price\">19,90 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <!-- 2 -->\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Switch Y — Linear Smooth</h3>\n <div class=\"productMeta\">MX • Factory lubed: No • Sound: Clacky</div>\n </div>\n <button class=\"speakerBtn\" title=\"Kliknij, aby odsłuchać\" data-sound=\"audio/linear_red.wav\" data-playing=\"0\">🔊</button>\n </div>\n <div class=\"productImg\"><img src=\"img/switch2.jpg\" alt=\"Switch linear\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Typ</b><span>Linear</span></div>\n <div class=\"spec\"><b>Actuation</b><span>1.9 mm</span></div>\n <div class=\"spec\"><b>Travel</b><span>4.0 mm</span></div>\n <div class=\"spec\"><b>Force</b><span>45g</span></div>\n <div class=\"spec\"><b>Housing</b><span>PC</span></div>\n <div class=\"spec\"><b>Pin</b><span>3‑pin</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">LINEAR</span><span class=\"tag\">CLACKY</span></div>\n <div class=\"priceRow\"><span class=\"price\">16,90 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <!-- 3 -->\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Switch Z — Clicky Classic</h3>\n <div class=\"productMeta\">MX • Factory lubed: No • Sound: Clicky</div>\n </div>\n <button class=\"speakerBtn\" title=\"Kliknij, aby odsłuchać\" data-sound=\"audio/holy_panda.wav\" data-playing=\"0\">🔊</button>\n </div>\n <div class=\"productImg\"><img src=\"img/build1.jpg\" alt=\"Switch clicky\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Typ</b><span>Clicky</span></div>\n <div class=\"spec\"><b>Actuation</b><span>2.2 mm</span></div>\n <div class=\"spec\"><b>Travel</b><span>4.0 mm</span></div>\n <div class=\"spec\"><b>Force</b><span>60g</span></div>\n <div class=\"spec\"><b>Housing</b><span>Nylon</span></div>\n <div class=\"spec\"><b>Pin</b><span>5‑pin</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">CLICKY</span><span class=\"tag\">LOUD</span></div>\n <div class=\"priceRow\"><span class=\"price\">14,90 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <!-- 4 -->\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Switch S — Silent Tactile</h3>\n <div class=\"productMeta\">MX • Factory lubed: Yes • Sound: Silent</div>\n </div>\n <button class=\"speakerBtn\" title=\"Kliknij, aby odsłuchać\" data-sound=\"audio/clicky_blue.wav\" data-playing=\"0\">🔊</button>\n </div>\n <div class=\"productImg\"><img src=\"img/build2.jpg\" alt=\"Switch silent\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Typ</b><span>Silent tactile</span></div>\n <div class=\"spec\"><b>Actuation</b><span>2.0 mm</span></div>\n <div class=\"spec\"><b>Travel</b><span>3.7 mm</span></div>\n <div class=\"spec\"><b>Force</b><span>62g</span></div>\n <div class=\"spec\"><b>Housing</b><span>POM</span></div>\n <div class=\"spec\"><b>Pin</b><span>5‑pin</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">SILENT</span><span class=\"tag\">TACTILE</span></div>\n <div class=\"priceRow\"><span class=\"price\">21,90 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n </div>\n\n <p style=\"margin-top:12px;\">\n <b>Info:</b> kliknij ikonę 🔊 — odtwarza próbkę dźwięku switcha (JS + audio).\n </p>\n </section>\n </td>\n', 1),
+(4, 'keycaps', ' <section class=\"card cardHover clearfix\">\n <img class=\"floatImg\" src=\"img/keycaps1.jpg\" alt=\"Keycaps set\" />\n <h2>Keycapy</h2>\n <p>\n Keycapy to „skóra” klawiatury — wpływają na wygląd, feeling i brzmienie. Poniżej masz\n przykładowe produkty w formie kart sklepowych (.\n </p>\n <div class=\"subnav\" aria-label=\"Filtry \">\n <span class=\"pill\">Materiał: PBT</span>\n <span class=\"pill\">Materiał: ABS</span>\n <span class=\"pill\">Profil: Cherry / OEM / SA</span>\n <span class=\"pill\">Legenda: Double‑shot / Dye‑sub</span>\n </div>\n </section>\n\n <div style=\"height:14px;\"></div>\n\n <section class=\"card\">\n <div class=\"productGrid\">\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Caps A — PBT Cherry</h3>\n <div class=\"productMeta\">PBT • Cherry • Dye‑sub • 135 klawiszy</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (keycapy)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/keycaps1.jpg\" alt=\"Keycaps PBT\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Materiał</b><span>PBT</span></div>\n <div class=\"spec\"><b>Profil</b><span>Cherry</span></div>\n <div class=\"spec\"><b>Grubość</b><span>1.5 mm</span></div>\n <div class=\"spec\"><b>Legenda</b><span>Dye‑sub</span></div>\n <div class=\"spec\"><b>Kompat.</b><span>MX</span></div>\n <div class=\"spec\"><b>Układy</b><span>ANSI/ISO</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">PBT</span><span class=\"tag\">CHERRY</span></div>\n <div class=\"priceRow\"><span class=\"price\">189,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Caps B — ABS Double‑shot</h3>\n <div class=\"productMeta\">ABS • OEM • Double‑shot • Shine friendly</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (keycapy)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/keycaps2.jpg\" alt=\"Keycaps ABS\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Materiał</b><span>ABS</span></div>\n <div class=\"spec\"><b>Profil</b><span>OEM</span></div>\n <div class=\"spec\"><b>Grubość</b><span>1.2 mm</span></div>\n <div class=\"spec\"><b>Legenda</b><span>Double‑shot</span></div>\n <div class=\"spec\"><b>Kompat.</b><span>MX</span></div>\n <div class=\"spec\"><b>Kolor</b><span>Neon</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">ABS</span><span class=\"tag\">DOUBLE‑SHOT</span></div>\n <div class=\"priceRow\"><span class=\"price\">149,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Caps C — SA Retro</h3>\n <div class=\"productMeta\">PBT • SA • Dye‑sub • Głośniejszy profil</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (keycapy)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/desk1.jpg\" alt=\"Keycaps SA\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Materiał</b><span>PBT</span></div>\n <div class=\"spec\"><b>Profil</b><span>SA</span></div>\n <div class=\"spec\"><b>Grubość</b><span>1.5 mm</span></div>\n <div class=\"spec\"><b>Legenda</b><span>Dye‑sub</span></div>\n <div class=\"spec\"><b>Kompat.</b><span>MX</span></div>\n <div class=\"spec\"><b>Układy</b><span>ANSI</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">RETRO</span><span class=\"tag\">SA</span></div>\n <div class=\"priceRow\"><span class=\"price\">219,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Caps D — Artisan 1u</h3>\n <div class=\"productMeta\">Resin • 1u • R4 • ręczne wykonanie</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (keycapy)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/tool1.jpg\" alt=\"Artisan keycap\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Materiał</b><span>Resin</span></div>\n <div class=\"spec\"><b>Rozmiar</b><span>1u</span></div>\n <div class=\"spec\"><b>Profil</b><span>R4</span></div>\n <div class=\"spec\"><b>Kompat.</b><span>MX</span></div>\n <div class=\"spec\"><b>Produkcja</b><span>Handmade</span></div>\n <div class=\"spec\"><b>Limit</b><span>30 szt.</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">ARTISAN</span><span class=\"tag\">LIMITED</span></div>\n <div class=\"priceRow\"><span class=\"price\">79,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n </div>\n\n <p style=\"margin-top:12px;\">\n <b>Info:</b> PBT zwykle jest odporniejszy na wybłyszczenia, a profil (Cherry/OEM/SA) zmienia\n wysokość i brzmienie.\n </p>\n </section>\n </td>\n', 1),
+(5, 'cables', ' <section class=\"card cardHover clearfix\">\n <img class=\"floatImg\" src=\"img/cable1.jpg\" alt=\"Custom cable\" />\n <h2>Kable</h2>\n <p>\n Dobre kable to nie tylko wygląd — liczy się elastyczność, oplot, złącza i długość.\n Poniżej masz przykładowe produkty w układzie sklepowym (.\n </p>\n <div class=\"subnav\" aria-label=\"Filtry \">\n <span class=\"pill\">USB‑C</span>\n <span class=\"pill\">Aviator</span>\n <span class=\"pill\">Coiled</span>\n <span class=\"pill\">Długość: 1.5 m / 2 m</span>\n </div>\n </section>\n\n <div style=\"height:14px;\"></div>\n\n <section class=\"card\">\n <div class=\"productGrid\">\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Cable A — USB‑C Basic</h3>\n <div class=\"productMeta\">USB‑A → USB‑C • 1.5 m • miękki oplot</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (kable)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/cable1.jpg\" alt=\"USB-C cable\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Złącze</b><span>USB‑C</span></div>\n <div class=\"spec\"><b>Długość</b><span>1.5 m</span></div>\n <div class=\"spec\"><b>Oplot</b><span>Nylon</span></div>\n <div class=\"spec\"><b>Kolor</b><span>Neon black</span></div>\n <div class=\"spec\"><b>Ferryt</b><span>Tak</span></div>\n <div class=\"spec\"><b>Gwarancja</b><span>12 mies.</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">USB‑C</span><span class=\"tag\">BASIC</span></div>\n <div class=\"priceRow\"><span class=\"price\">39,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Cable B — Coiled Neon</h3>\n <div class=\"productMeta\">Coiled • 2.0 m • paracord + techflex</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (kable)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/cable2.jpg\" alt=\"Coiled cable\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Złącze</b><span>USB‑C</span></div>\n <div class=\"spec\"><b>Długość</b><span>2.0 m</span></div>\n <div class=\"spec\"><b>Oplot</b><span>Paracord</span></div>\n <div class=\"spec\"><b>Sprężyna</b><span>Tak</span></div>\n <div class=\"spec\"><b>Kolor</b><span>Purple neon</span></div>\n <div class=\"spec\"><b>Gwarancja</b><span>12 mies.</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">COILED</span><span class=\"tag\">NEON</span></div>\n <div class=\"priceRow\"><span class=\"price\">129,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Cable C — Aviator</h3>\n <div class=\"productMeta\">Aviator GX16 • odpinany • 1.8 m</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (kable)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/case1.jpg\" alt=\"Aviator cable\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Złącze</b><span>Aviator</span></div>\n <div class=\"spec\"><b>Długość</b><span>1.8 m</span></div>\n <div class=\"spec\"><b>Oplot</b><span>Techflex</span></div>\n <div class=\"spec\"><b>Wymiana</b><span>Tak</span></div>\n <div class=\"spec\"><b>Kolor</b><span>Black/Green</span></div>\n <div class=\"spec\"><b>Gwarancja</b><span>24 mies.</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">AVIATOR</span><span class=\"tag\">GX16</span></div>\n <div class=\"priceRow\"><span class=\"price\">169,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n\n <article class=\"productCard\">\n <div class=\"productHeader\">\n <div>\n <h3>Cable D — Desk Mini</h3>\n <div class=\"productMeta\">Krótki • 0.8 m • do setupu biurkowego</div>\n </div>\n <div class=\"speakerBtn\" title=\"Bez dźwięku (kable)\">⌁</div>\n </div>\n <div class=\"productImg\"><img src=\"img/desk1.jpg\" alt=\"Desk cable\" /></div>\n <div class=\"productBody\">\n <div class=\"specGrid\">\n <div class=\"spec\"><b>Złącze</b><span>USB‑C</span></div>\n <div class=\"spec\"><b>Długość</b><span>0.8 m</span></div>\n <div class=\"spec\"><b>Oplot</b><span>Soft</span></div>\n <div class=\"spec\"><b>Kolor</b><span>Smoke</span></div>\n <div class=\"spec\"><b>Ferryt</b><span>Nie</span></div>\n <div class=\"spec\"><b>Gwarancja</b><span>12 mies.</span></div>\n </div>\n <div class=\"tagRow\"><span class=\"tag\">SHORT</span><span class=\"tag\">DESK</span></div>\n <div class=\"priceRow\"><span class=\"price\">29,00 zł</span><span class=\"smallBtn\">Dodaj </span></div>\n </div>\n </article>\n </div>\n\n <p style=\"margin-top:12px;\">\n <b>Info:</b> Przy coiled kablach zwracaj uwagę na długość po rozciągnięciu i jakość oplotu.\n </p>\n </section>\n </td>\n', 1),
+(6, 'guide', ' <section class=\"card cardHover clearfix\">\n <img class=\"floatImg\" src=\"img/build1.jpg\" alt=\"Keyboard build\" />\n <h2>Jak wybrać switche?</h2>\n <p>\n Wybór switchy zależy od tego, co jest dla Ciebie ważne: <b>cisza</b>, <b>szybkość</b>,\n <b>sprężystość</b> lub <b>charakter dźwięku</b>.\n </p>\n\n <h3>1) Linear</h3>\n <p>Ruch jest płynny, bez wyraźnego „progu”. Dobre do gier i szybkiego pisania.</p>\n\n <h3>2) Tactile</h3>\n <p>Czujesz lekki „bump” w trakcie nacisku. Dobre do pisania, bez głośnego kliku.</p>\n\n <h3>3) Clicky</h3>\n <p>Ma wyraźny klik i jest głośniejszy. Charakterystyczne brzmienie — nie dla każdego.</p>\n\n <p>\n </p>\n </section>\n </td>\n', 1),
+(7, 'faq', ' <section class=\"card cardHover\">\n <h2>FAQ</h2>\n <p>Krótko i konkretnie — jeśli nie ma odpowiedzi, napisz do nas przez formularz kontaktowy.</p>\n\n <div class=\"faqItem\">\n <p class=\"faqQ\">1) Czym są switche mechaniczne?</p>\n <p class=\"faqA\">To przełączniki pod każdym klawiszem. Decydują o odczuciu i brzmieniu klawiatury.</p>\n </div>\n\n <div class=\"faqItem\">\n <p class=\"faqQ\">2) Jaka jest różnica: linear / tactile / clicky?</p>\n <p class=\"faqA\">Linear — płynny ruch. Tactile — wyczuwalny „bump”. Clicky — bump + głośny klik.</p>\n </div>\n\n <div class=\"faqItem\">\n <p class=\"faqQ\">3) Czy mogę odsłuchać dźwięk switcha?</p>\n <p class=\"faqA\">Tak — kliknij ikonę 🔊 przy switchu, aby odsłuchać próbkę (wav).</p>\n </div>\n\n <div class=\"faqItem\">\n <p class=\"faqQ\">4) Czy produkty będą miały ceny brutto (z VAT)?</p>\n <p class=\"faqA\">Tak — w zapisujemy cenę netto i VAT, a koszyk w zlicza wartość brutto.</p>\n </div>\n\n <div class=\"faqItem\">\n <p class=\"faqQ\">5) Jak działa koszyk?</p>\n <p class=\"faqA\">W koszyk będzie w <b>$_SESSION</b>: dodawanie, usuwanie, zmiana ilości, suma.</p>\n </div>\n\n <div class=\"faqItem\">\n <p class=\"faqQ\">6) Czy mogę złożyć klawiaturę samodzielnie?</p>\n <p class=\"faqA\">Tak — zacznij od hot-swap PCB i gotowego case’a. Później możesz wejść w lutowanie i tuning.</p>\n </div>\n </section>\n </td>\n', 1),
+(8, 'filmy', '<section class=\"card\">\n <h2>Filmy</h2>\n <p>Krótka dawka inspiracji: brzmienie switchy, budowa klawiatury i modowanie.</p>\n\n <h3>1) Materiał wideo</h3>\n <iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" title=\"Video 1\" frameborder=\"0\" allowfullscreen></iframe>\n\n <h3>2) Materiał wideo</h3>\n <iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/9bZkp7q19f0\" title=\"Video 2\" frameborder=\"0\" allowfullscreen></iframe>\n\n <h3>3) Materiał wideo</h3>\n <iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/kJQP7kiw5Fk\" title=\"Video 3\" frameborder=\"0\" allowfullscreen></iframe>\n</section>\n\n <h3>2) Materiał wideo</h3>\n <iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/9bZkp7q19f0\" title=\"Video 2\" frameborder=\"0\" allowfullscreen></iframe>\n\n <h3>3) Materiał wideo</h3>\n <iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/kJQP7kiw5Fk\" title=\"Video 3\" frameborder=\"0\" allowfullscreen></iframe>\n</section>\n', 1),
+(9, 'contact', '<div class=\"grid2\">\r\n\r\n  <section class=\"card cardHover\">\r\n    <h2>Kontakt</h2>\r\n    <p>\r\n      Formularz otwiera domyślny klient poczty e-mail użytkownika\r\n      i wysyła wiadomość przez <b>mailto:</b>.\r\n      Adres odbiorcy ustawiany jest w atrybucie <u>action</u>.\r\n    </p>\r\n\r\n    <form method=\"post\"\r\n          action=\"mailto:twoj_email@example.com\"\r\n          enctype=\"text/plain\">\r\n\r\n      <div class=\"formGrid\">\r\n        <div>\r\n          <label for=\"name\"><b>Imię</b></label><br />\r\n          <input class=\"input\" id=\"name\" name=\"Imie\"\r\n                 type=\"text\" placeholder=\"Np. Jan\" required />\r\n        </div>\r\n\r\n        <div>\r\n          <label for=\"email\"><b>E-mail</b></label><br />\r\n          <input class=\"input\" id=\"email\" name=\"Email\"\r\n                 type=\"email\" placeholder=\"np. jan@mail.com\" required />\r\n        </div>\r\n      </div>\r\n\r\n      <div style=\"margin-top:12px;\">\r\n        <label for=\"topic\"><b>Temat</b></label><br />\r\n        <input class=\"input\" id=\"topic\" name=\"Temat\"\r\n               type=\"text\" placeholder=\"Np. Pytanie o switche\" />\r\n      </div>\r\n\r\n      <div style=\"margin-top:12px;\">\r\n        <label for=\"msg\"><b>Wiadomość</b></label><br />\r\n        <textarea id=\"msg\" name=\"Wiadomosc\"\r\n                  placeholder=\"Napisz wiadomość...\"></textarea>\r\n      </div>\r\n\r\n      <div style=\"margin-top:12px;\">\r\n        <button class=\"btn\" type=\"submit\">Wyślij</button>\r\n      </div>\r\n    </form>\r\n  </section>\r\n\r\n  <aside class=\"card cardHover clearfix\">\r\n    <img class=\"floatImg\" src=\"img/cable1.jpg\" alt=\"Custom cable\" />\r\n    <h3>Godziny kontaktu</h3>\r\n    <ul class=\"ul\">\r\n      <li>Pon–Pt: 10:00–18:00</li>\r\n      <li>Sob: 10:00–14:00</li>\r\n      <li>Nd: nieczynne</li>\r\n    </ul>\r\n  </aside>\r\n\r\n</div>\r\n', 1),
+(10, 'about', ' <div class=\"grid2\">\n <section class=\"card cardHover clearfix\">\n <img class=\"floatImg\" src=\"img/desk1.jpg\" alt=\"Desk setup\" />\n <h2>O ClickClick</h2>\n <p>\n ClickClick to przykładowy sklep z częściami do klawiatur mechanicznych: bazy, switche,\n keycapy, kable, stabilizatory i akcesoria.\n </p>\n <p>\n Strona będzie rozwijana etapami: JavaScript, jQuery, PHP, baza danych i panel CMS,\n a na końcu — koszyk internetowy.\n </p>\n\n <h3>Dlaczego mechaniki?</h3>\n <p>\n Bo pozwalają dopasować <b>brzmienie</b>, <b>feel</b> i <b>wygląd</b> pod siebie.\n To trochę jak składanie PC — tylko w miniaturze 😉\n </p>\n </section>\n\n <aside class=\"card cardHover\">\n <img src=\"img/build2.jpg\" alt=\"Keyboard build\" style=\"width:100%; border-radius:18px; border:1px solid rgba(255,255,255,.14);\" />\n <h3 style=\"margin-top:12px;\">Kontakt</h3>\n <p>\n Masz pytania? Przejdź do zakładki <a href=\"contact\"><b>Kontakt</b></a>.\n </p>\n </aside>\n </div>\n </td>\n', 1),
+(11, 'asdd', 'sadad', 1),
+(12, 'fdv', 'asd', 1),
+(13, 'auth', '\r\n<section class=\"card\" style=\"max-width:520px; margin:0 auto;\">\r\n  <h2>Panel użytkownika</h2>\r\n  <p>\r\n    Wybierz jedną z dostępnych opcji.\r\n  </p>\r\n\r\n  <div style=\"margin-top:12px;\">\r\n    <a class=\"btn\" href=\"index.php?idp=login\">Logowanie</a>\r\n  </div>\r\n\r\n  <div style=\"margin-top:12px;\">\r\n    <a class=\"btn\" href=\"index.php?idp=register\">Rejestracja</a>\r\n  </div>\r\n\r\n  <div style=\"margin-top:12px;\">\r\n    <a class=\"btn secondary\" href=\"index.php?idp=forgot\">Przypomnij hasło</a>\r\n  </div>\r\n</section>\r\n', 1),
+(18, 'login', '\r\n<section class=\"card\" style=\"max-width:520px; margin:0 auto;\">\r\n  <h2>Logowanie</h2>\r\n\r\n  <?php if (isset($_GET[\"error\"])): ?>\r\n    <div style=\"\r\n      margin-bottom:12px;\r\n      padding:10px;\r\n      background:#ffeaea;\r\n      color:#a10000;\r\n      border-radius:6px;\r\n      font-size:14px;\r\n    \">\r\n      Nieprawidłowy login lub hasło\r\n    </div>\r\n  <?php endif; ?>\r\n\r\n  <form method=\"post\" action=\"login_action.php\">\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <label><b>E-mail</b></label><br>\r\n      <input class=\"input\" name=\"login\" type=\"email\" required>\r\n    </div>\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <label><b>Hasło</b></label><br>\r\n      <input class=\"input\" name=\"password\" type=\"password\" required>\r\n    </div>\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <button class=\"btn\" type=\"submit\">Zaloguj</button>\r\n    </div>\r\n\r\n  </form>\r\n\r\n  <div style=\"margin-top:12px;\">\r\n    <a class=\"btn secondary\" href=\"google_login.php\">\r\n      Zaloguj przez Google\r\n    </a>\r\n  </div>\r\n</section>\r\n', 1),
+(19, 'register', '\r\n<section class=\"card\" style=\"max-width:520px; margin:0 auto;\">\r\n  <h2>Rejestracja</h2>\r\n  <p>\r\n    Utwórz nowe konto użytkownika.\r\n  </p>\r\n\r\n  <form method=\"post\" action=\"register_action.php\">\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <label for=\"login\"><b>Login</b></label><br>\r\n      <input class=\"input\" id=\"login\" name=\"login\" type=\"text\" required>\r\n    </div>\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <label for=\"pass\"><b>Hasło</b></label><br>\r\n      <input class=\"input\" id=\"pass\" name=\"password\" type=\"password\" required>\r\n    </div>\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <button class=\"btn\" type=\"submit\">Zarejestruj</button>\r\n    </div>\r\n\r\n  </form>\r\n\r\n  <p style=\"margin-top:12px; font-size:12px;\">\r\n    Po rejestracji możesz zalogować się do systemu.\r\n  </p>\r\n</section>\r\n', 1),
+(20, 'forgot', '\r\n<section class=\"card\" style=\"max-width:520px; margin:0 auto;\">\r\n  <h2>Przypomnij hasło</h2>\r\n  <p>\r\n    Podaj adres e-mail powiązany z kontem.\r\n  </p>\r\n\r\n  <form method=\"post\">\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <label for=\"email\"><b>E-mail</b></label><br>\r\n      <input class=\"input\" id=\"email\" name=\"email\" type=\"email\" required>\r\n    </div>\r\n\r\n    <div style=\"margin-top:12px;\">\r\n      <button class=\"btn\" type=\"submit\">Wyślij</button>\r\n    </div>\r\n\r\n  </form>\r\n\r\n  <p style=\"margin-top:12px; font-size:12px;\">\r\n    Jeśli konto istnieje, administrator skontaktuje się z Tobą.\r\n  </p>\r\n</section>\r\n', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `price_netto` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `vat` int(11) NOT NULL DEFAULT 23,
+  `stock_qty` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(4) NOT NULL DEFAULT 1,
+  `category_id` int(11) NOT NULL,
+  `size` varchar(50) DEFAULT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `sound_file` varchar(255) DEFAULT NULL,
+  `spec_1` varchar(255) DEFAULT NULL,
+  `spec_2` varchar(255) DEFAULT NULL,
+  `spec_3` varchar(255) DEFAULT NULL,
+  `spec_4` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `products`
+--
+
+INSERT INTO `products` (`id`, `title`, `description`, `created_at`, `updated_at`, `expires_at`, `price_netto`, `vat`, `stock_qty`, `status`, `category_id`, `size`, `image_url`, `sound_file`, `spec_1`, `spec_2`, `spec_3`, `spec_4`) VALUES
+(13, '123', 'asd', '2026-01-21 09:53:42', NULL, NULL, 22.00, 23, 1, 1, 1, NULL, 'uploads/img/2025-10-20_072353_20260121_095342_7459ac.png', 'uploads/audio/tactile_pro_20260121_095342_3df3e7.wav', '', '', '', ''),
+(14, '234', 'adssad', '2026-01-21 11:10:15', NULL, NULL, 11.00, 23, 999, 1, 1, NULL, 'uploads/img/2026-01-21_011253_20260121_111015_73bc34.png', '', '', '', '', ''),
+(15, '567', 'asd', '2026-01-21 11:12:19', NULL, NULL, 11.00, 23, 999999, 1, 5, NULL, 'uploads/img/2025-11-23_193437_20260121_111219_cecde8.png', '', '', '', '', ''),
+(16, '891', 'uyg', '2026-01-21 11:13:03', NULL, NULL, 33.00, 23, 999, 1, 5, NULL, 'uploads/img/2025-11-23_145725_20260121_111303_047f39.png', '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `google_id` varchar(64) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `videos`
+--
+
+CREATE TABLE `videos` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `youtube_url` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `videos`
+--
+
+INSERT INTO `videos` (`id`, `title`, `youtube_url`, `created_at`, `status`) VALUES
+(2, '1', 'https://www.youtube.com/embed/g4KwRlDowpQ?si=IX2-q_dOJg-pNeh8', '2026-01-20 22:57:29', 1);
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`);
+
+--
+-- Индексы таблицы `faq`
+--
+ALTER TABLE `faq`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `guides`
+--
+ALTER TABLE `guides`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `page_list`
+--
+ALTER TABLE `page_list`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_page_title` (`page_title`);
+
+--
+-- Индексы таблицы `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Индексы таблицы `videos`
+--
+ALTER TABLE `videos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+
+--
+-- AUTO_INCREMENT для таблицы `faq`
+--
+ALTER TABLE `faq`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT для таблицы `guides`
+--
+ALTER TABLE `guides`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `page_list`
+--
+ALTER TABLE `page_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT для таблицы `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `videos`
+--
+ALTER TABLE `videos`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
